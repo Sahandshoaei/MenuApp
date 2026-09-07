@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  /* --------------------------------------------------------------
+     Customer app color tokens (light palette from Restaurant_app.aco).
+     Components should read these via var(--color-*) instead of
+     hardcoded hex, so a future dark theme only needs the values
+     inside .dark below to be filled in / activated — no component
+     changes required.
+     -------------------------------------------------------------- */
+  --color-bg: #eaeef7;
+  --color-surface: #ffffff;
+  --color-surface-glass: rgba(255, 255, 255, 0.7);
+  --color-text-primary: #221c5e;
+  --color-text-secondary: #4a4a52;
+  --color-accent-soft: #919ecb;
+  --color-accent: #6a689a;
+  --color-accent-strong: #221c5e;
+  --color-accent-tint: rgba(145, 158, 203, 0.15);
+  --color-accent-tint-strong: rgba(145, 158, 203, 0.3);
+  --color-border: rgba(145, 158, 203, 0.2);
+  --color-border-strong: rgba(145, 158, 203, 0.4);
+}
+
+/* Placeholder for the future dark theme — same token names, dark values.
+   Toggle by adding class="dark" to a root element (e.g. <html> or the
+   customer app shell) once dark mode is actually wired up; nothing else
+   needs to change because every customer component below reads these
+   variables rather than fixed colors. */
+.dark {
+  --color-bg: #15132b;
+  --color-surface: #221c5e;
+  --color-surface-glass: rgba(34, 28, 94, 0.55);
+  --color-text-primary: #eaeef7;
+  --color-text-secondary: #b8bedc;
+  --color-accent-soft: rgba(145, 158, 203, 0.25);
+  --color-accent: #919ecb;
+  --color-accent-strong: #eaeef7;
+  --color-accent-tint: rgba(145, 158, 203, 0.18);
+  --color-accent-tint-strong: rgba(145, 158, 203, 0.32);
+  --color-border: rgba(145, 158, 203, 0.25);
+  --color-border-strong: rgba(145, 158, 203, 0.45);
+}
+
+body {
+  background-color: #eaeef7;
+  color: white;
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+}
+
+
