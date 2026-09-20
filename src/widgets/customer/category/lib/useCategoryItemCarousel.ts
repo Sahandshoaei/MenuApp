@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMenu } from "@/entities/menu/hooks/useMenu";
+import {
+  defaultSlideMotion,
+  measureSlideMotions,
+  type SlideMotion,
+} from "@/shared/animations/carouselMotion";
+
+const CAROUSEL_GAP_PX = 12;
 
 export const useCategoryItemCarousel = () => {
   const navigate = useNavigate();
@@ -22,11 +29,14 @@ export const useCategoryItemCarousel = () => {
   }, [categoryId]);
 
   const [activeIndex, setActiveIndex] = useState(initialIndex);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [slideMotions, setSlideMotions] = useState<Record<string, SlideMotion>>(
+    {}
+  );
 
-  // رفرنس هر آیتم (برای IntersectionObserver) + آخرین درصد دیده‌شدنش
+  const scrollRef = useRef<HTMLDivElement>(null);
   const itemNodesRef = useRef<Map<string, HTMLDivElement>>(new Map());
   const ratiosRef = useRef<Map<string, number>>(new Map());
+  const rafRef = useRef<number | null>(null);
 
   const registerItemRef = useCallback(
     (id: string, node: HTMLDivElement | null) => {
@@ -40,17 +50,79 @@ export const useCategoryItemCarousel = () => {
     []
   );
 
-  // وقتی دسته‌بندی عوض بشه (رفتن به یه صفحه‌ی دسته‌بندی دیگه)، index ریست بشه
+  const updateMotions = useCallback(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+
+    setSlideMotions(
+      measureSlideMotions(root, itemNodesRef.current, CAROUSEL_GAP_PX)
+    );
+  }, []);
+
+  const scheduleMotions = useCallback(() => {
+    if (rafRef.current != null) return;
+
+    rafRef.current = window.requestAnimationFrame(() => {
+      rafRef.current = null;
+      updateMotions();
+    });
+  }, [updateMotions]);
+
+  // Reset active index when category changes
   useEffect(() => {
     setActiveIndex(initialIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
 
-  // به‌جای محاسبه‌ی دستی از روی scrollLeft (که چون کانتینر snap-mandatory
-  // داره و مرورگر خودش با انیمیشن به موقعیت نهایی می‌رسه، باعث می‌شد index
-  // زودتر از رسیدن واقعی عکس عوض بشه)، از IntersectionObserver استفاده
-  // می‌کنیم: می‌پرسیم کدوم آیتم *واقعاً* بیشترین درصد دیده‌شدن رو داره،
-  // که همیشه با چیزی که کاربر می‌بینه هماهنگه.
+  // Jump carousel to deep-linked item instantly (for layoutId hero)
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root || items.length === 0) return;
+
+    const targetId = items[initialIndex]?.id;
+    if (!targetId) return;
+
+    // Wait a frame so refs are mounted
+    const id = window.requestAnimationFrame(() => {
+      const node = itemNodesRef.current.get(targetId);
+      if (!node) return;
+
+      const rootRect = root.getBoundingClientRect();
+      const nodeRect = node.getBoundingClientRect();
+      const delta =
+        nodeRect.left -
+        rootRect.left -
+        (rootRect.width - nodeRect.width) / 2;
+
+      root.scrollTo({ left: root.scrollLeft + delta, behavior: "auto" });
+      updateMotions();
+    });
+
+    return () => window.cancelAnimationFrame(id);
+  }, [categoryId, items, initialIndex, updateMotions]);
+
+  // Scroll → depth metrics (rAF throttled)
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+
+    updateMotions();
+
+    const onScroll = () => scheduleMotions();
+    root.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", scheduleMotions);
+
+    return () => {
+      root.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", scheduleMotions);
+      if (rafRef.current != null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+  }, [items, scheduleMotions, updateMotions]);
+
+  // IntersectionObserver keeps activeIndex locked to what's actually visible
   useEffect(() => {
     const root = scrollRef.current;
     if (!root || items.length === 0) return;
@@ -92,8 +164,7 @@ export const useCategoryItemCarousel = () => {
     return () => observer.disconnect();
   }, [items]);
 
-  // وقتی کاربر با اسکرول/سوایپ آیتم فعال رو عوض کرد، URL هم sync بشه
-  // (بدون اضافه کردن رکورد جدید به تاریخچه‌ی مرورگر)
+  // Sync URL with active slide (replace — no history spam)
   useEffect(() => {
     const current = items[activeIndex];
     if (current && current.id !== itemId) {
@@ -102,6 +173,22 @@ export const useCategoryItemCarousel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex, items]);
 
+  const getSlideMotion = useCallback(
+    (id: string): SlideMotion => {
+      if (slideMotions[id]) return slideMotions[id];
+
+      // Before first measure: estimate from activeIndex so side slides
+      // don't all flash at full focus on mount.
+      const index = items.findIndex((item) => item.id === id);
+      if (index === -1) return defaultSlideMotion;
+
+      const offset = index - activeIndex;
+      const focus = Math.max(0, 1 - Math.abs(offset));
+      return { offset, focus };
+    },
+    [slideMotions, items, activeIndex]
+  );
+
   return {
     category,
     items,
@@ -109,5 +196,7 @@ export const useCategoryItemCarousel = () => {
     activeIndex,
     scrollRef,
     registerItemRef,
+    getSlideMotion,
+    slideMotions,
   };
 };

@@ -8,41 +8,36 @@ export interface OrderStatusConfig {
 
 export const ORDER_STATUS_CONFIG: Record<OrderStatus, OrderStatusConfig> = {
   pending: {
-    label: "Pending",
+    label: "در انتظار",
     color: "#c9a876",
     bg: "rgba(201,168,118,0.12)",
   },
   accepted: {
-    label: "Accepted",
+    label: "تأیید شده",
     color: "#e8832a",
     bg: "rgba(232,131,42,0.12)",
   },
   preparing: {
-    label: "Preparing",
+    label: "در حال آماده‌سازی",
     color: "#e8832a",
     bg: "rgba(232,131,42,0.12)",
   },
   ready: {
-    label: "Ready",
+    label: "آماده",
     color: "#f5a84e",
     bg: "rgba(245,168,78,0.15)",
   },
   served: {
-    label: "Served",
+    label: "سرو شده",
     color: "#6fb37a",
     bg: "rgba(111,179,122,0.12)",
   },
   cancelled: {
-    label: "Cancelled",
+    label: "لغو شده",
     color: "#d9695a",
     bg: "rgba(217,105,90,0.12)",
   },
 };
-
-// این فایل تک منبع رنگ/برچسب هر OrderStatus است.
-// هم OrderStatusBadge (پنل مشتری و ادمین) و هم
-// بخش آمار Dashboard از همین استفاده می‌کنند
-// تا رنگ‌ها همیشه یکی بمانند.
 
 export const ORDER_STATUS_LIST: OrderStatus[] = [
   "pending",

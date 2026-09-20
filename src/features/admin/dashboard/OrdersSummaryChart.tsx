@@ -13,13 +13,13 @@ const OrdersSummaryChart = () => {
       className="
         rounded-2xl
         border
-        border-amber-900/20
-        bg-[#1a120b]
+        border-[var(--color-border)]
+        bg-[var(--color-surface)]
         p-5
       "
     >
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-white">Orders Summary</h3>
+        <h3 className="text-sm font-medium text-[var(--color-text-primary)]">خلاصه سفارش‌ها</h3>
         <PeriodToggle value={period} onChange={setPeriod} />
       </div>
 
@@ -34,14 +34,14 @@ const OrdersSummaryChart = () => {
 
             <XAxis
               dataKey="label"
-              stroke="#71717a"
+              stroke="var(--color-text-secondary)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
 
             <YAxis
-              stroke="#71717a"
+              stroke="var(--color-text-secondary)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
@@ -50,15 +50,15 @@ const OrdersSummaryChart = () => {
 
             <Tooltip
               contentStyle={{
-                background: "#1a120b",
+                background: "var(--color-surface)",
                 border: "1px solid rgba(232,131,42,0.3)",
                 borderRadius: 8,
               }}
-              labelStyle={{ color: "#fff" }}
-              formatter={(value) => [`${value}`, "Orders"]}
+              labelStyle={{ color: "var(--color-text-primary)" }}
+              formatter={(value) => [`${value}`, "سفارش‌ها"]}
             />
 
-            <Bar dataKey="orders" fill="#e8832a" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="orders" fill="var(--color-accent)" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

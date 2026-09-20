@@ -1,4 +1,5 @@
 import type { Category } from "@/entities/menu/types/category";
+import CategoryIcon from "@/entities/menu/ui/CategoryIcon";
 
 interface CategoryChipsProps {
   categories: Category[];
@@ -30,13 +31,13 @@ const CategoryChips = ({
           text-right
           ${
             selected === null
-              ? "border-primary bg-primary/10"
-              : "border-amber-900/20 bg-[#1a120b]"
+              ? "border-[var(--color-accent)] bg-[var(--color-accent-tint)]"
+              : "border-[var(--color-border)] bg-[var(--color-surface)]"
           }
         `}
       >
-        <span className="text-sm text-zinc-200">همه</span>
-        <span className="text-xs text-zinc-500">
+        <span className="text-sm text-[var(--color-text-primary)]">همه</span>
+        <span className="text-xs text-[var(--color-text-secondary)]">
           {Object.values(itemCountByCategory).reduce((a, b) => a + b, 0)} items
         </span>
       </button>
@@ -57,15 +58,15 @@ const CategoryChips = ({
             py-2
             ${
               selected === category.id
-                ? "border-primary bg-primary/10"
-                : "border-amber-900/20 bg-[#1a120b]"
+                ? "border-[var(--color-accent)] bg-[var(--color-accent-tint)]"
+                : "border-[var(--color-border)] bg-[var(--color-surface)]"
             }
           `}
         >
-          <span className="text-xl">{category.icon}</span>
+          <CategoryIcon category={category} size={18} className="text-[var(--color-text-primary)]" />
           <span className="flex flex-col items-start">
-            <span className="text-sm text-zinc-200">{category.title}</span>
-            <span className="text-xs text-zinc-500">
+            <span className="text-sm text-[var(--color-text-primary)]">{category.title}</span>
+            <span className="text-xs text-[var(--color-text-secondary)]">
               {itemCountByCategory[category.id] ?? 0} items
             </span>
           </span>

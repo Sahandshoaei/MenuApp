@@ -10,27 +10,27 @@ const RecentOrdersList = () => {
       className="
         rounded-2xl
         border
-        border-amber-900/20
-        bg-[#1a120b]
+        border-[var(--color-border)]
+        bg-[var(--color-surface)]
         overflow-hidden
       "
     >
       <div
         className="
           border-b
-          border-amber-900/20
+          border-[var(--color-border)]
           px-5
           py-3
           text-sm
           font-medium
-          text-white
+          text-[var(--color-text-primary)]
         "
       >
         آخرین سفارش‌ها
       </div>
 
       {recentOrders.length === 0 ? (
-        <p className="px-5 py-6 text-center text-sm text-zinc-500">
+        <p className="px-5 py-6 text-center text-sm text-[var(--color-text-secondary)]">
           هنوز سفارشی ثبت نشده.
         </p>
       ) : (
@@ -43,18 +43,18 @@ const RecentOrdersList = () => {
                 items-center
                 justify-between
                 border-b
-                border-amber-900/10
+                border-[var(--color-border)]
                 px-5
                 py-3
                 last:border-b-0
               "
             >
               <div>
-                <p className="text-sm text-white">
+                <p className="text-sm text-[var(--color-text-primary)]">
                   میز {order.tableId} —{" "}
                   {order.items.map((item) => item.name).join(", ")}
                 </p>
-                <p className="mt-0.5 text-xs text-zinc-500">
+                <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
                   ${order.totalPrice.toFixed(2)}
                 </p>
               </div>

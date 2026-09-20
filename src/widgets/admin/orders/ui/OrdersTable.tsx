@@ -20,6 +20,8 @@ import OrderDetailsDialog from "@/features/admin/orders/OrderDetailsDialog";
 import { ORDER_STATUS_CONFIG, ORDER_STATUS_LIST } from "@/entities/common/lib/statusConfig";
 import type { Order } from "@/entities/order/types/order";
 
+const toPersianDigits = (value: number) => value.toLocaleString("fa-IR");
+
 const OrdersTable = () => {
   const {
     statusFilter,
@@ -33,7 +35,6 @@ const OrdersTable = () => {
     currentPage,
     totalPages,
     setPage,
-  
   } = useOrdersTableData();
 
   const [viewingOrder, setViewingOrder] = useState<Order | null>(null);
@@ -44,11 +45,11 @@ const OrdersTable = () => {
       : null;
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Toolbar */}
+    <div dir="rtl" className="flex flex-col gap-4">
+      {/* نوار ابزار */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm text-zinc-400">
-          <span>Show</span>
+        <div className="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
+          <span>نمایش</span>
           <Select
             className="h-9 w-[72px] px-2"
             value={pageSize}
@@ -60,17 +61,18 @@ const OrdersTable = () => {
               </option>
             ))}
           </Select>
+          <span>ردیف</span>
         </div>
 
         <div className="flex flex-1 items-center justify-end gap-3">
           <DateFilterButton value={dateFilter} onChange={changeDateFilter} />
 
           <Select
-            className="h-10 w-[120px]"
+            className="h-10 w-[150px]"
             value={statusFilter}
             onChange={(e) => changeStatusFilter(e.target.value as OrderStatusFilter)}
           >
-            <option value="all">All</option>
+            <option value="all">همه وضعیت‌ها</option>
             {ORDER_STATUS_LIST.map((status) => (
               <option key={status} value={status}>
                 {ORDER_STATUS_CONFIG[status].label}
@@ -80,26 +82,42 @@ const OrdersTable = () => {
         </div>
       </div>
 
-      {/* Table */}
-      <Card className="overflow-hidden rounded-2xl border border-amber-900/20 bg-[#1a120b]">
+      {/* جدول */}
+      <Card className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)]">
         <Table>
           <TableHeader>
-            <TableRow className="border-amber-900/20 hover:bg-transparent">
-        
-              <TableHead className="text-xs text-zinc-400">ID</TableHead>
-              <TableHead className="text-xs text-zinc-400">Table</TableHead>
-              <TableHead className="text-xs text-zinc-400">Items</TableHead>
-              <TableHead className="text-xs text-zinc-400">Date</TableHead>
-              <TableHead className="text-xs text-zinc-400">Price</TableHead>
-              <TableHead className="text-xs text-zinc-400">Status</TableHead>
-              <TableHead className="text-right text-xs text-zinc-400">Actions</TableHead>
+            <TableRow className="border-[var(--color-border)] hover:bg-transparent">
+              <TableHead className="w-[90px] text-xs text-[var(--color-text-secondary)]">
+                شناسه
+              </TableHead>
+              <TableHead className="w-[70px] text-xs text-[var(--color-text-secondary)]">
+                میز
+              </TableHead>
+              <TableHead className="text-xs text-[var(--color-text-secondary)]">
+                اقلام
+              </TableHead>
+              <TableHead className="w-[170px] text-xs text-[var(--color-text-secondary)]">
+                تاریخ
+              </TableHead>
+              <TableHead className="w-[110px] text-xs text-[var(--color-text-secondary)]">
+                مبلغ
+              </TableHead>
+              <TableHead className="w-[130px] text-xs text-[var(--color-text-secondary)]">
+                وضعیت
+              </TableHead>
+              <TableHead className="w-[70px] text-xs text-[var(--color-text-secondary)]">
+                عملیات
+              </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
             {pageRows.length === 0 ? (
-              <TableRow className="border-amber-900/10 hover:bg-transparent">
-                <TableCell colSpan={7} className="py-8 text-center text-sm text-zinc-500">
+              <TableRow className="border-[var(--color-border)] hover:bg-transparent">
+                <TableCell
+                  colSpan={7}
+                  className="py-8 text-center text-sm text-[var(--color-text-secondary)]"
+                >
                   سفارشی برای نمایش وجود ندارد.
                 </TableCell>
               </TableRow>
@@ -116,10 +134,11 @@ const OrdersTable = () => {
         </Table>
       </Card>
 
-      {/* Footer / Pagination */}
+      {/* صفحه‌بندی */}
       <div className="flex items-center justify-between">
-        <span className="text-sm text-zinc-500">
-          Showing {pageRows.length} of {totalCount} entries
+        <span className="text-sm text-[var(--color-text-secondary)]">
+          نمایش {toPersianDigits(pageRows.length)} سفارش از مجموع{" "}
+          {toPersianDigits(totalCount)} سفارش
         </span>
 
         <div className="flex items-center gap-1.5">
@@ -130,18 +149,18 @@ const OrdersTable = () => {
             className="
               rounded-lg
               border
-              border-amber-900/30
+              border-[var(--color-border-strong)]
               px-3
               py-1.5
               text-xs
-              text-zinc-300
+              text-[var(--color-text-secondary)]
               transition-colors
-              hover:bg-white/5
+              hover:bg-[var(--color-accent-tint)]
               disabled:cursor-not-allowed
               disabled:opacity-40
             "
           >
-            Previous
+            قبلی
           </button>
 
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
@@ -157,12 +176,12 @@ const OrdersTable = () => {
                 transition-colors
                 ${
                   currentPage === pageNumber
-                    ? "bg-primary text-white"
-                    : "text-zinc-400 hover:bg-white/5"
+                    ? "bg-[var(--color-accent)] text-white"
+                    : "text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)]"
                 }
               `}
             >
-              {pageNumber}
+              {toPersianDigits(pageNumber)}
             </button>
           ))}
 
@@ -173,18 +192,18 @@ const OrdersTable = () => {
             className="
               rounded-lg
               border
-              border-amber-900/30
+              border-[var(--color-border-strong)]
               px-3
               py-1.5
               text-xs
-              text-zinc-300
+              text-[var(--color-text-secondary)]
               transition-colors
-              hover:bg-white/5
+              hover:bg-[var(--color-accent-tint)]
               disabled:cursor-not-allowed
               disabled:opacity-40
             "
           >
-            Next
+            بعدی
           </button>
         </div>
       </div>

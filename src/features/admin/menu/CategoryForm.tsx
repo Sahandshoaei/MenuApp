@@ -12,27 +12,34 @@ const inputClass = `
   w-full
   rounded-xl
   border
-  border-amber-900/30
+  border-[var(--color-border-strong)]
   bg-transparent
   px-3
   py-2.5
   text-sm
-  text-zinc-100
+  text-[var(--color-text-primary)]
   outline-none
-  focus:border-primary
+  focus:border-[var(--color-accent)]
 `;
 
-const labelClass = "mb-1.5 block text-xs text-zinc-400";
+const labelClass = "mb-1.5 block text-xs text-[var(--color-text-secondary)]";
 
-const findPresetIndex = (glowColor: string) =>
+const findPresetIndex = (glowColor?: string) =>
   Math.max(
     0,
     CATEGORY_COLOR_PRESETS.findIndex((preset) => preset.glowColor === glowColor)
   );
 
-const CategoryForm = ({ initialValue, onSubmit, onCancel }: CategoryFormProps) => {
+const emojiFromIcon = (icon: unknown): string =>
+  typeof icon === "string" && icon.trim() ? icon : "🍽️";
+
+const CategoryForm = ({
+  initialValue,
+  onSubmit,
+  onCancel,
+}: CategoryFormProps) => {
   const [title, setTitle] = useState(initialValue?.title ?? "");
-  const [icon, setIcon] = useState(initialValue?.icon ?? "🍽️");
+  const [icon, setIcon] = useState(emojiFromIcon(initialValue?.icon));
   const [presetIndex, setPresetIndex] = useState(
     initialValue ? findPresetIndex(initialValue.glowColor) : 0
   );
@@ -89,7 +96,7 @@ const CategoryForm = ({ initialValue, onSubmit, onCancel }: CategoryFormProps) =
                 ${preset.glowColor}
                 ${
                   presetIndex === index
-                    ? "ring-2 ring-primary ring-offset-2 ring-offset-[#1a120b]"
+                    ? "ring-2 ring-primary ring-offset-2 ring-offset-[var(--color-surface)]"
                     : ""
                 }
               `}
@@ -104,7 +111,7 @@ const CategoryForm = ({ initialValue, onSubmit, onCancel }: CategoryFormProps) =
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-xl border border-amber-900/30 py-2.5 text-sm text-zinc-300 hover:bg-white/5"
+          className="flex-1 rounded-xl border border-[var(--color-border-strong)] py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)]"
         >
           انصراف
         </button>
@@ -112,7 +119,7 @@ const CategoryForm = ({ initialValue, onSubmit, onCancel }: CategoryFormProps) =
         <button
           type="button"
           onClick={handleSubmit}
-          className="flex-1 rounded-xl bg-primary py-2.5 text-sm font-medium text-white hover:opacity-90"
+          className="flex-1 rounded-xl bg-[var(--color-accent)] py-2.5 text-sm font-medium text-white hover:opacity-90"
         >
           ذخیره
         </button>

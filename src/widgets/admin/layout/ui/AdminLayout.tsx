@@ -15,7 +15,7 @@ const getPageTitle = (pathname: string) => {
     .filter((item) => item.path !== "/admin")
     .find((item) => pathname.startsWith(item.path));
 
-  return parentMatch?.label ?? "Dashboard";
+  return parentMatch?.label ?? "داشبورد";
 };
 
 export function AdminLayout() {
@@ -23,7 +23,7 @@ export function AdminLayout() {
   const title = getPageTitle(location.pathname);
 
   return (
-    <div className="flex min-h-screen bg-[#0B0604] text-white">
+    <div className="flex min-h-screen bg-[var(--color-bg)] text-[var(--color-text-primary)]">
       <AdminSidebar />
 
       <div className="flex flex-1 flex-col">

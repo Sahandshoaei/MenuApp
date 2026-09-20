@@ -13,17 +13,17 @@ export const LOYALTY_RANK_CONFIG: Record<LoyaltyRank, LoyaltyRankBadgeConfig> = 
     bg: "rgba(156,163,175,0.12)",
   },
   bronze: {
-    label: "Bronze",
+    label: "برنزی",
     color: "#c68a4e",
     bg: "rgba(198,138,78,0.15)",
   },
   silver: {
-    label: "Silver",
+    label: "نقره‌ای",
     color: "#c7c7cf",
     bg: "rgba(199,199,207,0.15)",
   },
   gold: {
-    label: "Gold",
+    label: "طلایی",
     color: "#f5c451",
     bg: "rgba(245,196,81,0.18)",
   },

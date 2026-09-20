@@ -6,9 +6,6 @@ import TodayOffer from "../../widgets/customer/home/TodayOffer";
 export const HomePage: React.FC = () => {
   const headerRef = useRef<HTMLDivElement>(null);
 
-  // ارتفاع واقعی بخش تیتر+سرچ‌باکسِ چسبیده رو به‌صورت یه CSS variable منتشر
-  // می‌کنیم تا CategoryGrid بدونه کارت‌ها دقیقاً از کجا باید شروع به چرخیدن/محو
-  // شدن کنن (همون‌جایی که زیر این هدر می‌رن).
   useEffect(() => {
     const node = headerRef.current;
     if (!node) return;
@@ -21,26 +18,30 @@ export const HomePage: React.FC = () => {
     };
 
     updateHeight();
-
-    const resizeObserver = new ResizeObserver(updateHeight);
-    resizeObserver.observe(node);
-
-    return () => resizeObserver.disconnect();
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(node);
+    return () => ro.disconnect();
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] pb-28">
-      {/* بخش چسبیده به بالا: تیتر + سرچ‌باکس */}
+    <div className="bg-[var(--color-bg)] pb-8">
+      {/*
+        Sticky fold target for CategoryGrid.
+        top-0 is relative to #customer-scroll-root (the real scroller).
+      */}
       <div
         ref={headerRef}
-        className="sticky top-0 z-20 bg-[var(--color-bg)] px-5 pt-6 pb-3"
+        data-home-sticky-header
+        className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-[var(--color-bg)]/95 px-5 pb-3 pt-5 backdrop-blur-md"
       >
         <MenuHeader />
       </div>
 
-      <div className="space-y-8 px-5">
+      <div className="space-y-8 px-5 pt-2 pb-40">
         <CategoryGrid />
         <TodayOffer />
+        {/* Extra room so scroll-fold is always reachable on tall screens */}
+        <div className="h-40" aria-hidden />
       </div>
     </div>
   );

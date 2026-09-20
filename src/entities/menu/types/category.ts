@@ -1,14 +1,11 @@
-
-// MenuCategory قبلاً یک Union ثابت بود (فقط ۵ دسته‌بندی مشخص).
-// چون ادمین باید بتونه دسته‌بندی جدید بسازه، به string تبدیلش کردیم.
+// MenuCategory is a free string so admin can create new categories.
 export type MenuCategory = string;
-
-import type { ComponentType, SVGProps } from "react";
 
 export interface Category {
   id: string;
   title: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  /** Emoji (or short label) — always a string so it can be persisted & rendered safely */
+  icon: string;
   glowColor?: string;
   gradient?: string;
 }

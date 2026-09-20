@@ -6,34 +6,23 @@ import type { AuthStep } from "../types/authentication";
 import type { Customer } from "../../../../entities/customer/types/customer";
 
 export const useAuthentication = () => {
-
   const dispatch = useAppDispatch();
-  const [step, setStep] =
-    useState<AuthStep>("phone");
+  const [step, setStep] = useState<AuthStep>("phone");
 
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] =
-    useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [isNewCustomer, setIsNewCustomer] =
-    useState(false);
+  const [isNewCustomer, setIsNewCustomer] = useState(false);
+  const [verifiedCustomer, setVerifiedCustomer] = useState<Customer | null>(
+    null
+  );
 
-  const [verifiedCustomer, setVerifiedCustomer] =
-    useState<Customer | null>(null);
-
-  // -------------------------
-  // Send OTP
-  // -------------------------
-
-  const sendOtp = async (
-    phoneNumber: string,
-  ) => {
-    const normalizedPhone =
-      phoneNumber.replace(/\D/g, "");
+  const sendOtp = async (phoneNumber: string) => {
+    const normalizedPhone = phoneNumber.replace(/\D/g, "");
 
     if (normalizedPhone.length < 10) {
-      setError("Invalid phone number");
+      setError("شماره موبایل نامعتبر است");
       return false;
     }
 
@@ -41,52 +30,32 @@ export const useAuthentication = () => {
     setError(null);
 
     try {
-      const result =
-        await authenticationService.sendOtp(
-          normalizedPhone,
-        );
+      const result = await authenticationService.sendOtp(normalizedPhone);
 
       if (!result.success) {
-        setError(
-          result.message ??
-            "Failed to send OTP",
-        );
-
+        setError(result.message ?? "ارسال کد تأیید ناموفق بود");
         return false;
       }
 
       setPhone(normalizedPhone);
       setStep("otp");
-
       return true;
     } catch {
-      setError(
-        "Something went wrong",
-      );
-
+      setError("مشکلی پیش آمد. دوباره تلاش کنید.");
       return false;
     } finally {
       setLoading(false);
     }
   };
 
-  // -------------------------
-  // Verify OTP
-  // -------------------------
-
-  const verifyOtp = async (
-    otp: string,
-  ) => {
+  const verifyOtp = async (otp: string) => {
     if (!phone) {
-      setError("Phone number is missing");
+      setError("شماره موبایل موجود نیست");
       return false;
     }
 
     if (otp.length !== 6) {
-      setError(
-        "Please enter the 6-digit OTP",
-      );
-
+      setError("لطفاً کد ۶ رقمی را وارد کنید");
       return false;
     }
 
@@ -94,83 +63,43 @@ export const useAuthentication = () => {
     setError(null);
 
     try {
-      const result =
-        await authenticationService.verifyOtp(
-          phone,
-          otp,
-        );
+      const result = await authenticationService.verifyOtp(phone, otp);
 
-      if (
-        !result.success ||
-        !result.customer
-      ) {
-        setError(
-          result.message ??
-            "Invalid OTP",
-        );
-
+      if (!result.success || !result.customer) {
+        setError(result.message ?? "کد تأیید نامعتبر است");
         return false;
       }
 
-      const customer =
-        result.customer;
-
+      const customer = result.customer;
       setVerifiedCustomer(customer);
 
-      /*
-       * Customer جدید
-       */
       if (!customer.name) {
         setIsNewCustomer(true);
         setStep("name");
-
         return true;
       }
 
-      /*
-       * Customer موجود
-       */
       setIsNewCustomer(false);
-
-      dispatch(
-        setActiveCustomer(customer),
-      );
-
+      dispatch(setActiveCustomer(customer));
       return true;
     } catch {
-      setError(
-        "Something went wrong",
-      );
-
+      setError("مشکلی پیش آمد. دوباره تلاش کنید.");
       return false;
     } finally {
       setLoading(false);
     }
   };
 
-  // -------------------------
-  // Complete Registration
-  // -------------------------
-
-  const completeRegistration = (
-    name: string,
-  ) => {
+  const completeRegistration = (name: string) => {
     if (!verifiedCustomer) {
-      setError(
-        "Customer information is missing",
-      );
-
+      setError("اطلاعات کاربر موجود نیست");
       return false;
     }
 
-    const trimmedName =
-      name.trim();
+    const trimmedName = name.trim();
 
     if (!trimmedName) {
-      setError(
-        "Please enter your name",
-      );
-
+      setError("لطفاً نام خود را وارد کنید");
       return false;
     }
 
@@ -179,23 +108,10 @@ export const useAuthentication = () => {
       name: trimmedName,
     };
 
-    const savedCustomer =
-      authenticationService.createCustomer(
-        customer,
-      );
-
-    dispatch(
-      setActiveCustomer(
-        savedCustomer,
-      ),
-    );
-
+    const savedCustomer = authenticationService.createCustomer(customer);
+    dispatch(setActiveCustomer(savedCustomer));
     return true;
   };
-
-  // -------------------------
-  // Back
-  // -------------------------
 
   const backToPhone = () => {
     setStep("phone");
@@ -203,10 +119,6 @@ export const useAuthentication = () => {
     setIsNewCustomer(false);
     setVerifiedCustomer(null);
   };
-
-  // -------------------------
-  // Reset
-  // -------------------------
 
   const reset = () => {
     setStep("phone");
@@ -224,13 +136,10 @@ export const useAuthentication = () => {
     error,
     isNewCustomer,
     verifiedCustomer,
-
     sendOtp,
     verifyOtp,
     completeRegistration,
-
     backToPhone,
     reset,
   };
 };
-

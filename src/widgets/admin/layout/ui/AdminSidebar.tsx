@@ -12,18 +12,18 @@ const AdminSidebar = () => {
         shrink-0
         flex-col
         border-r
-        border-amber-900/30
-        bg-[#140D08]
+        border-[var(--color-border-strong)]
+        bg-[var(--color-surface)]
         px-4
         py-6
       "
     >
       {/* Brand */}
       <div className="mb-8 px-2">
-        <span className="text-lg font-bold text-white">
+        <span className="text-lg font-bold text-[var(--color-text-primary)]">
           Restaurant
         </span>
-        <span className="ml-2 text-xs text-amber-500">
+        <span className="ml-2 text-xs text-[var(--color-accent)]">
           Admin
         </span>
       </div>
@@ -41,8 +41,8 @@ const AdminSidebar = () => {
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition-colors ${
                   isActive
-                    ? "bg-primary/15 text-primary"
-                    : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
+                    ? "bg-[var(--color-accent-tint-strong)] text-[var(--color-accent)]"
+                    : "text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)] hover:text-[var(--color-text-primary)]"
                 }`
               }
             >

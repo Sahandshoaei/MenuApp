@@ -1,11 +1,12 @@
 import type { Variants } from "framer-motion";
+import { easeOutExpo, spring } from "./motion";
 
 export const menuContainerVariants: Variants = {
   hidden: {},
-
   visible: {
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.07,
+      delayChildren: 0.04,
     },
   },
 };
@@ -13,40 +14,21 @@ export const menuContainerVariants: Variants = {
 export const menuItemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 35,
-    scale: 0.96,
+    y: 24,
+    scale: 0.97,
   },
-
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-
     transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.45,
+      ease: easeOutExpo,
     },
   },
 };
 
-
-
-// اینجا چه اتفاقی می‌افتد؟
-
-// این قسمت:
-
-// staggerChildren: 0.08
-
-// یعنی هر Child با فاصله‌ی 80ms نسبت به قبلی شروع شود.
-
-// و:
-
-// y: 35
-
-// یعنی کارت ابتدا کمی پایین‌تر باشد.
-
-// بعد:
-
-// y: 0
-
-// به جای اصلی خودش برگردد
+export const menuItemTap = {
+  scale: 0.97,
+  transition: spring.snappy,
+} as const;

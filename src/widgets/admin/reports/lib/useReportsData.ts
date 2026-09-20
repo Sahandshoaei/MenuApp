@@ -15,6 +15,7 @@ export interface BestSellerItem {
 export interface CategoryBreakdownItem {
   categoryId: string;
   title: string;
+  /** emoji string — never a React component */
   icon: string;
   revenue: number;
   percentage: number;
@@ -123,7 +124,7 @@ export const useReportsData = (period: TimePeriod) => {
         return {
           categoryId,
           title: category?.title ?? "سایر",
-          icon: category?.icon ?? "🍽️",
+          icon: typeof category?.icon === "string" && category.icon ? category.icon : "🍽️",
           revenue,
           percentage: totalRevenue ? (revenue / totalRevenue) * 100 : 0,
         };

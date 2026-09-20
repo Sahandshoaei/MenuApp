@@ -194,9 +194,10 @@ const LoyaltyModal = ({open,onClose}: LoyaltyModalProps) => {
             <button
               type="button"
               onClick={onClose}
+              aria-label="بستن"
               className="
                 absolute
-                right-4
+                left-4
                 top-4
                 rounded-full
                 p-2

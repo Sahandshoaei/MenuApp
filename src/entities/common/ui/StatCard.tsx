@@ -13,15 +13,18 @@ const StatCard = ({ label, value, icon: Icon }: StatCardProps) => {
       className="
         rounded-2xl
         border
-        border-amber-900/20
-        bg-[#1a120b]
+        border-[var(--color-border)]
+        bg-[var(--color-surface)]
         p-4
+        shadow-[0_4px_16px_rgba(34,28,94,0.05)]
       "
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs text-zinc-400">{label}</p>
-          <p className="mt-1 text-2xl font-semibold text-white">{value}</p>
+          <p className="text-xs text-[var(--color-text-secondary)]">{label}</p>
+          <p className="mt-1 text-2xl font-semibold text-[var(--color-text-primary)]">
+            {value}
+          </p>
         </div>
 
         <div
@@ -32,8 +35,8 @@ const StatCard = ({ label, value, icon: Icon }: StatCardProps) => {
             items-center
             justify-center
             rounded-xl
-            bg-primary/15
-            text-primary
+            bg-[var(--color-accent-tint-strong)]
+            text-[var(--color-accent)]
           "
         >
           <Icon size={18} />

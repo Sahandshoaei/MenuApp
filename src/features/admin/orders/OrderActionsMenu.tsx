@@ -45,7 +45,7 @@ const OrderActionsMenu = ({ order, triggerIcon: TriggerIcon = MoreVertical }: Or
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="rounded-lg p-1.5 text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
+        className="rounded-lg p-1.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)] hover:text-[var(--color-text-primary)]"
       >
         <TriggerIcon size={16} />
       </button>
@@ -61,8 +61,8 @@ const OrderActionsMenu = ({ order, triggerIcon: TriggerIcon = MoreVertical }: Or
             overflow-hidden
             rounded-xl
             border
-            border-amber-900/30
-            bg-[#1a120b]
+            border-[var(--color-border-strong)]
+            bg-[var(--color-surface)]
             shadow-lg
           "
         >
@@ -70,7 +70,7 @@ const OrderActionsMenu = ({ order, triggerIcon: TriggerIcon = MoreVertical }: Or
             <button
               type="button"
               onClick={handleAdvance}
-              className="w-full px-4 py-2.5 text-right text-sm text-zinc-200 hover:bg-white/5"
+              className="w-full px-4 py-2.5 text-right text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-accent-tint)]"
             >
               {NEXT_STATUS_ACTION_LABEL[order.status]}
             </button>
@@ -80,14 +80,14 @@ const OrderActionsMenu = ({ order, triggerIcon: TriggerIcon = MoreVertical }: Or
             <button
               type="button"
               onClick={handleCancel}
-              className="w-full px-4 py-2.5 text-right text-sm text-red-400 hover:bg-white/5"
+              className="w-full px-4 py-2.5 text-right text-sm text-red-400 hover:bg-[var(--color-accent-tint)]"
             >
               لغو سفارش
             </button>
           )}
 
           {!nextStatus && !canCancel && (
-            <p className="px-4 py-2.5 text-sm text-zinc-500">اکشنی موجود نیست</p>
+            <p className="px-4 py-2.5 text-sm text-[var(--color-text-secondary)]">اکشنی موجود نیست</p>
           )}
         </div>
       )}

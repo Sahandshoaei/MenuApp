@@ -13,17 +13,17 @@ const inputClass = `
   w-full
   rounded-xl
   border
-  border-amber-900/30
+  border-[var(--color-border-strong)]
   bg-transparent
   px-3
   py-2.5
   text-sm
-  text-zinc-100
+  text-[var(--color-text-primary)]
   outline-none
-  focus:border-primary
+  focus:border-[var(--color-accent)]
 `;
 
-const labelClass = "mb-1.5 block text-xs text-zinc-400";
+const labelClass = "mb-1.5 block text-xs text-[var(--color-text-secondary)]";
 
 const ProductForm = ({
   categories,
@@ -68,8 +68,8 @@ const ProductForm = ({
           className={inputClass}
         >
           {categories.map((c) => (
-            <option key={c.id} value={c.id} className="bg-[#1a120b]">
-              {c.icon} {c.title}
+            <option key={c.id} value={c.id} className="bg-[var(--color-surface)]">
+              {(typeof c.icon === "string" ? c.icon : "🍽️") + " " + c.title}
             </option>
           ))}
         </select>
@@ -127,7 +127,7 @@ const ProductForm = ({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 rounded-xl border border-amber-900/30 py-2.5 text-sm text-zinc-300 hover:bg-white/5"
+          className="flex-1 rounded-xl border border-[var(--color-border-strong)] py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)]"
         >
           انصراف
         </button>
@@ -135,7 +135,7 @@ const ProductForm = ({
         <button
           type="button"
           onClick={handleSubmit}
-          className="flex-1 rounded-xl bg-primary py-2.5 text-sm font-medium text-white hover:opacity-90"
+          className="flex-1 rounded-xl bg-[var(--color-accent)] py-2.5 text-sm font-medium text-white hover:opacity-90"
         >
           ذخیره
         </button>

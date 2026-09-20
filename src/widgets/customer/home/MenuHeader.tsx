@@ -2,9 +2,7 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useMenu } from "../../../entities/menu/hooks/useMenu";
-
-// سرچ بر اساس حرف‌های ابتدایی اسم خود آیتم‌ها (startsWith)، نه سرچ متنی کامل.
-// یعنی تایپ "برگ" فقط آیتم‌هایی که اسمشون با "برگ" شروع می‌شه رو نشون می‌ده.
+import { formatToman } from "@/shared/format/money";
 
 const MenuHeader = () => {
   const navigate = useNavigate();
@@ -13,7 +11,6 @@ const MenuHeader = () => {
 
   const results = useMemo(() => {
     const trimmed = query.trim().toLowerCase();
-
     if (!trimmed) return [];
 
     return menu.filter((item) =>
@@ -26,20 +23,20 @@ const MenuHeader = () => {
   return (
     <div className="relative">
       <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">
-        Menu
+        منو
       </h1>
 
       <div className="relative mt-4">
         <Search
           size={16}
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-accent-soft)]"
+          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[var(--color-accent-soft)]"
         />
 
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search menu items..."
+          placeholder="جستجوی آیتم منو..."
           className="
             w-full
             rounded-2xl
@@ -47,8 +44,8 @@ const MenuHeader = () => {
             border-[var(--color-border)]
             bg-[var(--color-surface)]
             py-3
-            pl-11
-            pr-4
+            pr-11
+            pl-4
             text-sm
             text-[var(--color-text-primary)]
             outline-none
@@ -59,7 +56,6 @@ const MenuHeader = () => {
         />
       </div>
 
-      {/* Live results */}
       {showResults && (
         <div
           className="
@@ -88,7 +84,7 @@ const MenuHeader = () => {
                 key={item.id}
                 type="button"
                 onClick={() => {
-                  navigate(`/category/${item.category}`);
+                  navigate(`/category/${item.category}/${item.id}`);
                   setQuery("");
                 }}
                 className="
@@ -101,7 +97,7 @@ const MenuHeader = () => {
                   border-[var(--color-border)]
                   px-4
                   py-3
-                  text-left
+                  text-right
                   transition-colors
                   last:border-b-0
                   hover:bg-[var(--color-accent-tint)]
@@ -112,7 +108,7 @@ const MenuHeader = () => {
                 </span>
 
                 <span className="shrink-0 text-sm font-semibold text-[var(--color-accent)]">
-                  ${item.price}
+                  {formatToman(item.price)}
                 </span>
               </button>
             ))

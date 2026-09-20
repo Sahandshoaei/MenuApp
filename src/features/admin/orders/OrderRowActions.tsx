@@ -8,11 +8,11 @@ interface OrderRowActionsProps {
 
 const OrderRowActions = ({ order, onView }: OrderRowActionsProps) => {
   return (
-    <div className="flex items-center justify-end">
+    <div className="flex items-center justify-start">
       <button
         type="button"
         onClick={() => onView(order)}
-        className="rounded-lg p-1.5 text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-200"
+        className="rounded-lg p-1.5 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-accent-tint)] hover:text-[var(--color-text-primary)]"
         title="جزئیات سفارش"
       >
         <Eye size={15} />

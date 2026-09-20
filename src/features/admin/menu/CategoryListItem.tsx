@@ -1,4 +1,5 @@
 import type { Category } from "@/entities/menu/types/category";
+import CategoryIcon from "@/entities/menu/ui/CategoryIcon";
 
 interface CategoryListItemProps {
   category: Category;
@@ -23,17 +24,19 @@ const CategoryListItem = ({
         justify-between
         rounded-2xl
         border
-        border-amber-900/20
-        bg-[#1a120b]
+        border-[var(--color-border)]
+        bg-[var(--color-surface)]
         px-4
         py-3
       "
     >
       <div className="flex items-center gap-3">
-        <span className="text-xl">{category.icon}</span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--color-accent-tint)] text-[var(--color-text-primary)]">
+          <CategoryIcon category={category} size={20} />
+        </span>
         <div>
-          <p className="text-sm text-white">{category.title}</p>
-          <p className="text-xs text-zinc-500">{itemCount} items</p>
+          <p className="text-sm text-[var(--color-text-primary)]">{category.title}</p>
+          <p className="text-xs text-[var(--color-text-secondary)]">{itemCount} items</p>
         </div>
       </div>
 
@@ -41,7 +44,7 @@ const CategoryListItem = ({
         <button
           type="button"
           onClick={onEdit}
-          className="rounded-lg border border-amber-900/30 px-3 py-1.5 text-xs text-zinc-300 hover:bg-white/5"
+          className="rounded-lg border border-[var(--color-border-strong)] px-3 py-1.5 text-xs text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)]"
         >
           ویرایش
         </button>
@@ -50,7 +53,11 @@ const CategoryListItem = ({
           type="button"
           onClick={onDelete}
           disabled={!canDelete}
-          title={canDelete ? "" : "این دسته‌بندی آیتم دارد، ابتدا آیتم‌ها را جابه‌جا/حذف کنید"}
+          title={
+            canDelete
+              ? ""
+              : "این دسته‌بندی آیتم دارد، ابتدا آیتم‌ها را جابه‌جا/حذف کنید"
+          }
           className="
             rounded-lg
             border

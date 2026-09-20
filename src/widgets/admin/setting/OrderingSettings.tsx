@@ -6,17 +6,17 @@ const OrderingSettings = () => {
   const { orderingEnabled } = settings;
 
   return (
-    <section className="rounded-2xl border border-amber-900/20 bg-[#1a120b] p-6">
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
       <div className="grid gap-8 md:grid-cols-2 md:items-start">
         {/* Info */}
         <div className="flex items-start gap-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-            <ShoppingBag size={20} className="text-primary" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent-tint)]">
+            <ShoppingBag size={20} className="text-[var(--color-accent)]" />
           </div>
 
           <div>
-            <h2 className="text-base font-semibold text-white">سیستم سفارش‌گیری</h2>
-            <p className="mt-1 text-sm text-zinc-400">
+            <h2 className="text-base font-semibold text-[var(--color-text-primary)]">سیستم سفارش‌گیری</h2>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               فعال یا غیرفعال کردن ثبت سفارش برای مشتری‌ها
             </p>
           </div>
@@ -26,8 +26,8 @@ const OrderingSettings = () => {
         <div>
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-medium text-white">دریافت سفارش</h3>
-              <p className="mt-1 text-xs text-zinc-500">
+              <h3 className="text-sm font-medium text-[var(--color-text-primary)]">دریافت سفارش</h3>
+              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                 وقتی غیرفعال باشه، مشتری‌ها نمی‌تونن سفارش ثبت کنن.
               </p>
             </div>
@@ -36,11 +36,11 @@ const OrderingSettings = () => {
               type="button"
               onClick={() => setOrderingEnabled(!orderingEnabled)}
               className={`relative h-6 w-11 rounded-full transition-colors ${
-                orderingEnabled ? "bg-primary" : "bg-white/10"
+                orderingEnabled ? "bg-[var(--color-accent)]" : "bg-[var(--color-accent-tint)]"
               }`}
             >
               <span
-                className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow transition-transform ${
+                className={`absolute top-1 h-4 w-4 rounded-full bg-[var(--color-surface)] shadow transition-transform ${
                   orderingEnabled ? "right-1" : "right-6"
                 }`}
               />
@@ -71,7 +71,7 @@ const OrderingSettings = () => {
                   ? "سیستم سفارش‌گیری الان فعاله"
                   : "سیستم سفارش‌گیری الان غیرفعاله"}
               </p>
-              <p className="mt-1 text-xs text-zinc-400">
+              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
                 {orderingEnabled
                   ? "مشتری‌ها می‌تونن به‌صورت عادی سفارش بدن."
                   : "مشتری‌ها نمی‌تونن سفارش جدید ثبت کنن."}

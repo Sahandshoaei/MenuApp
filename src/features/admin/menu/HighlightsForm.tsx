@@ -10,20 +10,20 @@ interface HighlightsFormProps {
   onSubmit: (values: MenuHighlights) => void;
 }
 
-const labelClass = "mb-1.5 block text-xs text-zinc-400";
+const labelClass = "mb-1.5 block text-xs text-[var(--color-text-secondary)]";
 
 const selectClass = `
   w-full
   rounded-xl
   border
-  border-amber-900/30
+  border-[var(--color-border-strong)]
   bg-transparent
   px-3
   py-2.5
   text-sm
-  text-zinc-100
+  text-[var(--color-text-primary)]
   outline-none
-  focus:border-primary
+  focus:border-[var(--color-accent)]
 `;
 
 const HighlightsForm = ({
@@ -45,8 +45,8 @@ const HighlightsForm = ({
   };
 
   return (
-    <div className="max-w-md rounded-2xl border border-amber-900/20 bg-[#1a120b] p-5">
-      <p className="mb-4 text-sm text-zinc-400">
+    <div className="max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <p className="mb-4 text-sm text-[var(--color-text-secondary)]">
         این‌ها همون‌هایی هستن که در صفحه‌ی اصلی پنل مشتری به‌صورت ویژه نمایش داده می‌شن.
       </p>
 
@@ -58,8 +58,10 @@ const HighlightsForm = ({
           className={selectClass}
         >
           {categories.map((category) => (
-            <option key={category.id} value={category.id} className="bg-[#1a120b]">
-              {category.icon} {category.title}
+            <option key={category.id} value={category.id} className="bg-[var(--color-surface)]">
+              {(typeof category.icon === "string" ? category.icon : "🍽️") +
+                " " +
+                category.title}
             </option>
           ))}
         </select>
@@ -73,7 +75,7 @@ const HighlightsForm = ({
           className={selectClass}
         >
           {items.map((item) => (
-            <option key={item.id} value={item.id} className="bg-[#1a120b]">
+            <option key={item.id} value={item.id} className="bg-[var(--color-surface)]">
               {item.name} — ${item.price.toFixed(2)}
             </option>
           ))}
@@ -83,7 +85,7 @@ const HighlightsForm = ({
       <button
         type="button"
         onClick={handleSave}
-        className="w-full rounded-xl bg-primary py-2.5 text-sm font-medium text-white hover:opacity-90"
+        className="w-full rounded-xl bg-[var(--color-accent)] py-2.5 text-sm font-medium text-white hover:opacity-90"
       >
         {saved ? "ذخیره شد ✓" : "ذخیره"}
       </button>

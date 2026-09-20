@@ -10,13 +10,13 @@ const AdminHeader = ({ title }: AdminHeaderProps) => {
         items-center
         justify-between
         border-b
-        border-amber-900/30
-        bg-[#332016]
+        border-[var(--color-border-strong)]
+        bg-[var(--color-surface)]
         px-6
         py-4
       "
     >
-      <h1 className="text-lg font-semibold text-white">
+      <h1 className="text-lg font-semibold text-[var(--color-text-primary)]">
         {title}
       </h1>
 
@@ -28,9 +28,10 @@ const AdminHeader = ({ title }: AdminHeaderProps) => {
             items-center
             justify-center
             rounded-full
-            bg-primary
+            bg-[var(--color-accent)]
             text-sm
             font-bold
+            text-white
           "
         >
           A

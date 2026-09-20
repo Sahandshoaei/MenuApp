@@ -1,65 +1,71 @@
-import type{ MenuItem } from "../types/menu-item";
-import cocaColaImg from "../../../assets/images/menu/cocacola.webp"
-import cheesecakeImg from "../../../assets/images/menu/cheesecake.jpg"
-import eggsImg from "../../../assets/images/menu/eggs.jpg"
-import burgerImg from "../../../assets/images/menu/burger.jpg"
-import espressoImg from "../../../assets/images/menu/espresso.jpg"
-import mojitoImg from "../../../assets/images/menu/mojito.avif"
+import type { MenuItem } from "../types/menu-item";
+import cocaColaImg from "../../../assets/images/menu/cocacola.webp";
+import cheesecakeImg from "../../../assets/images/menu/cheesecake.jpg";
+import eggsImg from "../../../assets/images/menu/eggs.jpg";
+import burgerImg from "../../../assets/images/menu/burger.jpg";
+import espressoImg from "../../../assets/images/menu/espresso.jpg";
+import mojitoImg from "../../../assets/images/menu/mojito.avif";
 
-
+/** قیمت‌ها به تومان (عدد صحیح) */
 export const menuItems: MenuItem[] = [
   {
     id: "1",
-    name: "Coca Cola",
-    price: 2.5,
-    image:cocaColaImg,
+    name: "کوکا کولا",
+    price: 45000,
+    image: cocaColaImg,
     category: "drinks",
-    description: "Refreshing soda beverage",
+    description: "نوشابه خنک و گازدار",
+    weightLabel: "۳۳۰ میلی‌لیتر",
+    ingredients: "آب گازدار، شکر، رنگ کارامل، کافئین",
   },
-    {
+  {
     id: "2",
-    name: "Espresso",
-    price: 12,
+    name: "اسپرسو",
+    price: 85000,
     image: espressoImg,
     category: "drinks",
-    description: "Strong and bold coffee shot",
+    description: "شات قهوه غلیظ و پرعطر",
+    weightLabel: "۳۰ میلی‌لیتر",
+    ingredients: "دانه‌های قهوه عربیکا",
   },
-      {
+  {
     id: "3",
-    name: "Mojito",
-    price: 20,
+    name: "موجیتو",
+    price: 180000,
     image: mojitoImg,
     category: "drinks",
-    description: "Refreshing cocktail with mint and lime",
+    description: "نوشیدنی خنک با نعنا و لیمو",
+    weightLabel: "۳۵۰ میلی‌لیتر",
+    ingredients: "نعنا، لیمو، شکر، آب سودا",
   },
-
   {
     id: "4",
-    name: "Cheesecake",
-    price: 6,
+    name: "چیزکیک",
+    price: 145000,
     image: cheesecakeImg,
     category: "desserts",
-    description: "Creamy cheesecake with a graham cracker crust",
+    description: "چیزکیک خامه‌ای با بیسکویت",
+    weightLabel: "۱۲۰ گرم",
+    ingredients: "پنیر خامه‌ای، بیسکویت، شکر، خامه",
   },
-
   {
     id: "5",
-    name: "Eggs",
-    price: 5,
+    name: "املت تخم‌مرغ",
+    price: 95000,
     image: eggsImg,
     category: "breakfast",
-    description: "Crispy golden fries with a sprinkle of salt",
+    description: "املت نرم با نان تازه",
+    weightLabel: "۲ عدد",
+    ingredients: "تخم‌مرغ، کره، نمک، فلفل",
   },
-
   {
     id: "6",
-    name: "Burger",
-    price: 15,
-    image: "...",
+    name: "برگر مخصوص",
+    price: 285000,
+    image: burgerImg,
     category: "sandwiches",
-    description: "Juicy beef burger with lettuce and tomato",
+    description: "برگر گوشت با کاهو و گوجه‌فرنگی",
+    weightLabel: "۲۵۰ گرم",
+    ingredients: "گوشت گوساله، نان برگر، کاهو، گوجه، سس",
   },
 ];
-
-
-

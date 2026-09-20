@@ -17,24 +17,39 @@ interface CustomersTableProps {
 
 const CustomersTable = ({ customers, onSelect }: CustomersTableProps) => {
   return (
-    <Card className="overflow-hidden rounded-2xl border border-amber-900/20 bg-[#1a120b]">
+    <Card className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)]">
       <Table>
         <TableHeader>
-          <TableRow className="border-amber-900/20 hover:bg-transparent">
-            <TableHead className="text-xs text-zinc-400">Customer</TableHead>
-            <TableHead className="text-xs text-zinc-400">Phone</TableHead>
-            <TableHead className="text-xs text-zinc-400">Orders</TableHead>
-            <TableHead className="text-xs text-zinc-400">Total Spent</TableHead>
-            <TableHead className="text-xs text-zinc-400">Rank</TableHead>
-            <TableHead className="text-xs text-zinc-400">Last Order</TableHead>
-            <TableHead className="w-8" />
+          <TableRow className="border-[var(--color-border)] hover:bg-transparent">
+            <TableHead className="text-xs text-[var(--color-text-secondary)]">
+              مشتری
+            </TableHead>
+            <TableHead className="w-[180px] text-xs text-[var(--color-text-secondary)]">
+              شماره تماس
+            </TableHead>
+            <TableHead className="w-[180px] text-xs text-[var(--color-text-secondary)]">
+              تعداد سفارش
+            </TableHead>
+            <TableHead className="w-[180px] text-xs text-[var(--color-text-secondary)]">
+              مجموع خرید
+            </TableHead>
+            <TableHead className="w-[180px] text-xs text-[var(--color-text-secondary)]">
+              رتبه
+            </TableHead>
+            <TableHead className="w-[120px] text-xs text-[var(--color-text-secondary)]">
+              آخرین سفارش
+            </TableHead>
+            <TableHead className="w-[40px]" />
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {customers.length === 0 ? (
-            <TableRow className="border-amber-900/10 hover:bg-transparent">
-              <TableCell colSpan={7} className="py-8 text-center text-sm text-zinc-500">
+            <TableRow className="border-[var(--color-border)] hover:bg-transparent">
+              <TableCell
+                colSpan={7}
+                className="py-8 text-center text-sm text-[var(--color-text-secondary)]"
+              >
                 هنوز مشتری‌ای ثبت‌نام نکرده.
               </TableCell>
             </TableRow>

@@ -44,8 +44,8 @@ const TableActionsMenu = ({
         overflow-hidden
         rounded-xl
         border
-        border-amber-900/30
-        bg-[#1a120b]
+        border-[var(--color-border-strong)]
+        bg-[var(--color-surface)]
         shadow-lg
       "
     >
@@ -53,7 +53,7 @@ const TableActionsMenu = ({
         <button
           type="button"
           onClick={onReserve}
-          className="w-full px-3 py-2 text-center text-xs text-zinc-200 hover:bg-white/5"
+          className="w-full px-3 py-2 text-center text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-accent-tint)]"
         >
           رزرو
         </button>
@@ -63,7 +63,7 @@ const TableActionsMenu = ({
         <button
           type="button"
           onClick={onOccupy}
-          className="w-full px-3 py-2 text-center text-xs text-zinc-200 hover:bg-white/5"
+          className="w-full px-3 py-2 text-center text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-accent-tint)]"
         >
           اشغال
         </button>
@@ -73,7 +73,7 @@ const TableActionsMenu = ({
         <button
           type="button"
           onClick={onRelease}
-          className="w-full px-3 py-2 text-center text-xs text-zinc-200 hover:bg-white/5"
+          className="w-full px-3 py-2 text-center text-xs text-[var(--color-text-primary)] hover:bg-[var(--color-accent-tint)]"
         >
           آزادسازی
         </button>

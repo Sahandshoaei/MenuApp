@@ -2,7 +2,6 @@ import { useMenu } from "../../../entities/menu/hooks/useMenu";
 import OfferCard from "../../../features/customer/menu/OfferCard";
 
 const TodayOffer = () => {
-  
   const { todayOffer } = useMenu();
 
   if (!todayOffer) {
@@ -12,12 +11,12 @@ const TodayOffer = () => {
   return (
     <section>
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-[#221C5E]">
-          Today's Offer
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
+          پیشنهاد امروز
         </h2>
 
-        <p className="text-sm text-[#4A4A52]">
-          Special offer for today
+        <p className="text-sm text-[var(--color-text-secondary)]">
+          پیشنهاد ویژه برای امروز
         </p>
       </div>
 
@@ -27,15 +26,3 @@ const TodayOffer = () => {
 };
 
 export default TodayOffer;
-
-
-
-                // Entity Menu
-                //     │
-                //     │ getTodayOffer()
-                //     ▼
-                // TodayOffer
-                //     │
-                //     │ item
-                //     ▼
-                // OfferCard

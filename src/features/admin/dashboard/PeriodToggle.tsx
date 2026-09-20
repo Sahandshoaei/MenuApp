@@ -6,14 +6,14 @@ interface PeriodToggleProps {
 }
 
 const OPTIONS: { value: TimePeriod; label: string }[] = [
-  { value: "monthly", label: "Monthly" },
-  { value: "weekly", label: "Weekly" },
-  { value: "today", label: "Today" },
+  { value: "monthly", label: "ماهانه" },
+  { value: "weekly", label: "هفتگی" },
+  { value: "today", label: "امروز" },
 ];
 
 const PeriodToggle = ({ value, onChange }: PeriodToggleProps) => {
   return (
-    <div className="flex items-center gap-1 rounded-full bg-white/5 p-1">
+    <div className="flex items-center gap-1 rounded-full bg-[var(--color-accent-tint)] p-1">
       {OPTIONS.map((option) => (
         <button
           key={option.value}
@@ -21,8 +21,8 @@ const PeriodToggle = ({ value, onChange }: PeriodToggleProps) => {
           onClick={() => onChange(option.value)}
           className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
             value === option.value
-              ? "bg-primary text-white"
-              : "text-zinc-400 hover:text-zinc-200"
+              ? "bg-[var(--color-accent)] text-white"
+              : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
           }`}
         >
           {option.label}

@@ -90,7 +90,7 @@ export const useCheckout = ({
       return true;
     } catch (error) {
       console.error("Checkout failed:", error);
-      toast.error("Something went wrong while placing your order.");
+      toast.error("ثبت سفارش با مشکل روبه‌رو شد. دوباره تلاش کنید.");
 
       return false;
     } finally {

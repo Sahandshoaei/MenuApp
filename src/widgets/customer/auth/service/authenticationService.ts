@@ -1,7 +1,5 @@
-import type {AuthenticationResult} from "../types/authentication";
+import type { AuthenticationResult } from "../types/authentication";
 import type { Customer } from "../../../../entities/customer/types/customer";
-
-
 
 const OTP_LENGTH = 6;
 const MOCK_OTP = "123456";
@@ -11,108 +9,70 @@ const normalizePhone = (phone: string) => {
   return phone.replace(/\D/g, "");
 };
 
-const loadCustomers = (): Record<string,Customer> => {
-
+const loadCustomers = (): Record<string, Customer> => {
   try {
-    const data = localStorage.getItem(
-      CUSTOMERS_STORAGE_KEY,
-    );
-
+    const data = localStorage.getItem(CUSTOMERS_STORAGE_KEY);
     return data ? JSON.parse(data) : {};
   } catch {
     return {};
   }
 };
 
-const saveCustomers = (
-  customers: Record<string, Customer>,
-) => {
-  localStorage.setItem(
-    CUSTOMERS_STORAGE_KEY,
-    JSON.stringify(customers),
-  );
+const saveCustomers = (customers: Record<string, Customer>) => {
+  localStorage.setItem(CUSTOMERS_STORAGE_KEY, JSON.stringify(customers));
 };
 
 export const authenticationService = {
-
-  sendOtp(
-    phone: string,
-  ): Promise<AuthenticationResult> {
-
-    const normalizedPhone =
-      normalizePhone(phone);
+  sendOtp(phone: string): Promise<AuthenticationResult> {
+    const normalizedPhone = normalizePhone(phone);
 
     if (normalizedPhone.length < 10) {
       return Promise.resolve({
         success: false,
-        message:
-          "Invalid phone number",
+        message: "شماره موبایل نامعتبر است",
       });
     }
 
-    console.log(
-      `[MOCK OTP] ${normalizedPhone} -> ${MOCK_OTP}`,
-    );
+    console.log(`[MOCK OTP] ${normalizedPhone} -> ${MOCK_OTP}`);
 
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
           success: true,
-          message:
-            "OTP sent successfully",
+          message: "کد تأیید ارسال شد",
         });
       }, 500);
     });
   },
 
-  verifyOtp(
-    phone: string,
-    otp: string,
-  ): Promise<AuthenticationResult> {
-
-    const normalizedPhone =
-      normalizePhone(phone);
+  verifyOtp(phone: string, otp: string): Promise<AuthenticationResult> {
+    const normalizedPhone = normalizePhone(phone);
 
     if (otp.length !== OTP_LENGTH) {
       return Promise.resolve({
         success: false,
-        message:
-          "Invalid OTP",
+        message: "کد تأیید نامعتبر است",
       });
     }
 
     if (otp !== MOCK_OTP) {
       return Promise.resolve({
         success: false,
-        message:
-          "Incorrect OTP",
+        message: "کد تأیید اشتباه است",
       });
     }
 
-    const customers =
-      loadCustomers();
+    const customers = loadCustomers();
+    const existingCustomer = customers[normalizedPhone];
 
-    const existingCustomer =
-      customers[normalizedPhone];
-
-    /*
-     * Customer قبلاً وجود دارد
-     */
     if (existingCustomer) {
       return Promise.resolve({
         success: true,
         customer: existingCustomer,
-        message:
-          "Welcome back",
+        message: "خوش آمدید",
       });
     }
 
-    /*
-     * Customer جدید است.
-     *
-     * هنوز ذخیره نمی‌کنیم چون
-     * Name را در مرحله بعد می‌گیریم.
-     */
     return Promise.resolve({
       success: true,
       customer: {
@@ -120,50 +80,14 @@ export const authenticationService = {
         name: "",
         phone: normalizedPhone,
       },
-      message:
-        "Phone verified successfully",
+      message: "شماره موبایل تأیید شد",
     });
   },
 
-  createCustomer(
-    customer: Customer,
-  ): Customer {
-
-    const customers =
-      loadCustomers();
-
-    customers[customer.id] =
-      customer;
-
+  createCustomer(customer: Customer): Customer {
+    const customers = loadCustomers();
+    customers[customer.id] = customer;
     saveCustomers(customers);
-
     return customer;
   },
-
 };
-
-
-
-// این نسخه از localStorage پروفایل‌های قبلی را بررسی می‌کند:
-
-// sendOtp()
-//    ↓
-// OTP
-//    ↓
-// verifyOtp()
-//    ↓
-// ┌─────────────────────┐
-// │ Customer exists?    │
-// └─────────────────────┘
-//        │
-//    ┌───┴────┐
-//    ↓        ↓
-//   Yes       No
-//    ↓        ↓
-// Login    NameStep
-//    │        ↓
-//    │    createCustomer
-//    │        ↓
-//    └───────→ Customer
-//                 ↓
-//         setActiveCustomer()

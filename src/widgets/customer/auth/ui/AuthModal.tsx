@@ -13,21 +13,15 @@ type AuthModalProps = {
   onSuccess?: () => void;
 };
 
-const AuthModal = ({
-  open,
-  onClose,
-  onSuccess,
-}: AuthModalProps) => {
+const AuthModal = ({ open, onClose, onSuccess }: AuthModalProps) => {
   const {
     step,
     phone,
     loading,
     error,
-
     sendOtp,
     verifyOtp,
     completeRegistration,
-
     backToPhone,
     reset,
   } = useAuthentication();
@@ -42,12 +36,8 @@ const AuthModal = ({
     onSuccess?.();
   };
 
-  const handleRegistration = (
-    name: string,
-  ) => {
-    const success =
-      completeRegistration(name);
-
+  const handleRegistration = (name: string) => {
+    const success = completeRegistration(name);
     if (success) {
       handleSuccess();
     }
@@ -57,41 +47,22 @@ const AuthModal = ({
     <AnimatePresence>
       {open && (
         <>
-          {/* Overlay */}
           <motion.div
-            className="fixed inset-0 z-[60] bg-[#221C5E]/60 backdrop-blur-md"
+            className="fixed inset-0 z-[60] bg-[color:var(--color-overlay)] backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
           />
 
-          {/* Modal */}
-          <div className="fixed inset-0 z-[70] flex items-center justify-center px-5 pointer-events-none">
+          <div className="pointer-events-none fixed inset-0 z-[70] flex items-center justify-center px-5">
             <motion.div
               className="pointer-events-auto w-full max-w-md"
-              initial={{
-                opacity: 0,
-                scale: 0.92,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.92,
-                y: 20,
-              }}
-              transition={{
-                type: "spring",
-                damping: 20,
-                stiffness: 300,
-              }}
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
             >
-              {/* Accent */}
               <div className="mx-auto h-0.5 w-16 rounded-full bg-gradient-to-r from-transparent via-[var(--color-accent)] to-transparent" />
 
               <div
@@ -102,45 +73,31 @@ const AuthModal = ({
                   boxShadow: "0 24px 60px rgba(34,28,94,0.25)",
                 }}
               >
-                {/* Header */}
                 <div className="mb-6 flex items-center justify-between">
-                  <div>
+                  <div className="text-right">
                     <h2
                       className="text-base font-semibold"
-                      style={{
-                        color: "var(--color-text-primary)",
-                      }}
+                      style={{ color: "var(--color-text-primary)" }}
                     >
-                      {step === "phone" &&
-                        "Sign in / Register"}
-
-                      {step === "otp" &&
-                        "Verification"}
-
-                      {step === "name" &&
-                        "Create Profile"}
+                      {step === "phone" && "ورود / ثبت‌نام"}
+                      {step === "otp" && "تأیید هویت"}
+                      {step === "name" && "ساخت پروفایل"}
                     </h2>
 
                     <p
                       className="mt-1 text-xs"
-                      style={{
-                        color: "var(--color-text-secondary)",
-                      }}
+                      style={{ color: "var(--color-text-secondary)" }}
                     >
-                      {step === "phone" &&
-                        "Login or create your account"}
-
-                      {step === "otp" &&
-                        "Verify your phone number"}
-
-                      {step === "name" &&
-                        "Complete your profile"}
+                      {step === "phone" && "وارد شوید یا حساب بسازید"}
+                      {step === "otp" && "شماره موبایل را تأیید کنید"}
+                      {step === "name" && "پروفایل خود را کامل کنید"}
                     </p>
                   </div>
 
                   <button
                     type="button"
                     onClick={handleClose}
+                    aria-label="بستن"
                     className="flex h-8 w-8 items-center justify-center rounded-lg"
                     style={{
                       background: "var(--color-accent-tint)",
@@ -152,31 +109,25 @@ const AuthModal = ({
                   </button>
                 </div>
 
-                {/* Progress */}
                 <div className="mb-6 flex gap-1.5">
                   <div
                     className="h-1 flex-1 rounded-full"
                     style={{
                       background:
-                        step === "phone" ||
-                        step === "otp" ||
-                        step === "name"
+                        step === "phone" || step === "otp" || step === "name"
                           ? "var(--color-accent)"
                           : "var(--color-border)",
                     }}
                   />
-
                   <div
                     className="h-1 flex-1 rounded-full"
                     style={{
                       background:
-                        step === "otp" ||
-                        step === "name"
+                        step === "otp" || step === "name"
                           ? "var(--color-accent)"
                           : "var(--color-border)",
                     }}
                   />
-
                   <div
                     className="h-1 flex-1 rounded-full"
                     style={{
@@ -188,23 +139,13 @@ const AuthModal = ({
                   />
                 </div>
 
-                {/* Step */}
                 <AnimatePresence mode="wait">
                   {step === "phone" && (
                     <motion.div
                       key="phone"
-                      initial={{
-                        opacity: 0,
-                        x: -20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x: 20,
-                      }}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
                     >
                       <PhoneStep
                         loading={loading}
@@ -217,18 +158,9 @@ const AuthModal = ({
                   {step === "otp" && (
                     <motion.div
                       key="otp"
-                      initial={{
-                        opacity: 0,
-                        x: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x: -20,
-                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
                     >
                       <OtpStep
                         phone={phone}
@@ -243,25 +175,14 @@ const AuthModal = ({
                   {step === "name" && (
                     <motion.div
                       key="name"
-                      initial={{
-                        opacity: 0,
-                        x: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        x: -20,
-                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
                     >
                       <NameStep
                         loading={loading}
                         error={error}
-                        onSubmit={
-                          handleRegistration
-                        }
+                        onSubmit={handleRegistration}
                       />
                     </motion.div>
                   )}
@@ -276,40 +197,3 @@ const AuthModal = ({
 };
 
 export default AuthModal;
-
-// dataflow :
-
-
-// Guest
-//   │
-//   ├── Checkout
-//   ├── Profile
-//   └── Orders
-//        │
-//        ↓
-//    AuthModal
-//        │
-//        ↓
-//    Phone Number
-//        │
-//        ↓
-//    authenticationService
-//        │
-//        ↓
-//    Send OTP
-//        │
-//        ↓
-//    OtpStep
-//        │
-//        ↓
-//    Verify OTP
-//        │
-//        ↓
-//    customerSlice
-//        │
-//        ↓
-//    Active Customer
-//        │
-//        ├── Checkout → Submit Order
-//        ├── Profile  → ProfilePage
-//        └── Orders   → OrdersPage

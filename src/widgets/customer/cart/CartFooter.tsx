@@ -1,9 +1,10 @@
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import Button from "../../../shared/Button";
 import { useCart } from "../../../entities/cart/hooks/useCart";
 import { useRestaurant } from "../../../entities/restaurant/hooks/useRestaurant";
 import TableSelector from "@/features/customer/cart/TableSelector";
 import type { Table } from "../../../entities/table/types/table";
+import { formatToman } from "@/shared/format/money";
 
 type CartFooterProps = {
   onCheckout: () => void;
@@ -18,14 +19,7 @@ const CartFooter = ({
   selectedTableId,
   onSelectTable,
 }: CartFooterProps) => {
-  const {
-    items,
-    count,
-    total,
-    isEmpty,
-    clear,
-  } = useCart();
-
+  const { count, total, isEmpty, clear } = useCart();
   const { settings } = useRestaurant();
   const { orderingEnabled } = settings;
 
@@ -35,42 +29,26 @@ const CartFooter = ({
   return (
     <div
       className="p-5"
-      style={{
-        borderTop: "0.5px solid var(--color-border)",
-      }}
+      style={{ borderTop: "0.5px solid var(--color-border)" }}
     >
-      {/* Clear cart */}
       {!isEmpty && (
         <button
           type="button"
           onClick={clear}
-          className="
-            mb-3
-            flex
-            items-center
-            gap-1.5
-            text-xs
-            transition-colors
-          "
-          style={{
-            color: "var(--color-accent-soft)",
-          }}
+          className="mb-3 flex items-center gap-1.5 text-xs transition-colors"
+          style={{ color: "var(--color-accent-soft)" }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color =
-              "#e05a4a";
+            e.currentTarget.style.color = "#e05a4a";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color =
-              "var(--color-accent-soft)";
+            e.currentTarget.style.color = "var(--color-accent-soft)";
           }}
         >
           <Trash2 size={12} />
-
-          Clear cart
+          پاک کردن سبد
         </button>
       )}
 
-      {/* Ordering disabled by admin */}
       {!orderingEnabled && (
         <div
           className="mb-4 rounded-xl p-3 text-center text-xs"
@@ -84,14 +62,12 @@ const CartFooter = ({
         </div>
       )}
 
-      {/* Table selection */}
       <TableSelector
         tables={availableTables}
         selectedTableId={selectedTableId}
         onSelect={onSelectTable}
       />
 
-      {/* Summary */}
       <div
         className="mb-4 rounded-xl p-4"
         style={{
@@ -99,88 +75,58 @@ const CartFooter = ({
           border: "0.5px solid var(--color-border)",
         }}
       >
-        {/* Total items */}
         <div
           className="mb-2 flex justify-between text-xs"
-          style={{
-            color: "var(--color-text-secondary)",
-          }}
+          style={{ color: "var(--color-text-secondary)" }}
         >
-          <span>Total Items</span>
-
+          <span>تعداد اقلام</span>
           <span>{count}</span>
         </div>
 
         <div
           className="h-px w-full"
-          style={{
-            background: "var(--color-border)",
-          }}
+          style={{ background: "var(--color-border)" }}
         />
 
-        {/* Total price */}
         <div className="mt-2 flex justify-between">
           <span
             className="text-sm font-medium"
-            style={{
-              color: "var(--color-text-secondary)",
-            }}
+            style={{ color: "var(--color-text-secondary)" }}
           >
-            Total
+            جمع کل
           </span>
 
           <span
             className="text-lg font-semibold"
-            style={{
-              color: "var(--color-accent-strong)",
-            }}
+            style={{ color: "var(--color-accent-strong)" }}
           >
-            ${total.toFixed(2)}
+            {formatToman(total)}
           </span>
         </div>
       </div>
 
-      {/* Checkout */}
       <Button
         type="button"
         disabled={!canCheckout}
         onClick={onCheckout}
         className="
-          flex
-          w-full
-          items-center
-          justify-center
-          gap-2
-          rounded-xl
-          py-3.5
-          text-sm
-          font-medium
-          text-white
-          transition-opacity
-          hover:opacity-90
-          disabled:opacity-40
+          flex w-full items-center justify-center gap-2 rounded-xl
+          py-3.5 text-sm font-medium text-white transition-opacity
+          hover:opacity-90 disabled:opacity-40
         "
         style={{
           background: canCheckout
             ? "linear-gradient(135deg, var(--color-accent), var(--color-accent-strong))"
             : "var(--color-surface)",
-
           boxShadow: canCheckout
             ? "0 4px 16px rgba(34,28,94,0.25)"
             : "none",
-
-          border: canCheckout
-            ? "none"
-            : "0.5px solid var(--color-border)",
-
-          color: canCheckout
-            ? "#fff"
-            : "var(--color-accent-soft)",
+          border: canCheckout ? "none" : "0.5px solid var(--color-border)",
+          color: canCheckout ? "#fff" : "var(--color-accent-soft)",
         }}
       >
-        {orderingEnabled ? "Checkout" : "سفارش‌گیری غیرفعال است"}
-
-        {orderingEnabled && <ArrowRight size={15} />}
+        {orderingEnabled ? "ثبت سفارش" : "سفارش‌گیری غیرفعال است"}
+        {orderingEnabled && <ArrowLeft size={15} />}
       </Button>
     </div>
   );

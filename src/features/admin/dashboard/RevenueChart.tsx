@@ -13,13 +13,13 @@ const RevenueChart = () => {
       className="
         rounded-2xl
         border
-        border-amber-900/20
-        bg-[#1a120b]
+        border-[var(--color-border)]
+        bg-[var(--color-surface)]
         p-5
       "
     >
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-white">Revenue</h3>
+        <h3 className="text-sm font-medium text-[var(--color-text-primary)]">درآمد</h3>
         <PeriodToggle value={period} onChange={setPeriod} />
       </div>
 
@@ -28,8 +28,8 @@ const RevenueChart = () => {
           <AreaChart data={data}>
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#e8832a" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="#e8832a" stopOpacity={0} />
+                <stop offset="0%" stopColor="var(--color-accent)" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="var(--color-accent)" stopOpacity={0} />
               </linearGradient>
             </defs>
 
@@ -41,14 +41,14 @@ const RevenueChart = () => {
 
             <XAxis
               dataKey="label"
-              stroke="#71717a"
+              stroke="var(--color-text-secondary)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
             />
 
             <YAxis
-              stroke="#71717a"
+              stroke="var(--color-text-secondary)"
               fontSize={12}
               tickLine={false}
               axisLine={false}
@@ -56,18 +56,18 @@ const RevenueChart = () => {
 
             <Tooltip
               contentStyle={{
-                background: "#1a120b",
+                background: "var(--color-surface)",
                 border: "1px solid rgba(232,131,42,0.3)",
                 borderRadius: 8,
               }}
-              labelStyle={{ color: "#fff" }}
-              formatter={(value) => [`$${Number(value).toFixed(2)}`, "Revenue"]}
+              labelStyle={{ color: "var(--color-text-primary)" }}
+              formatter={(value) => [`$${Number(value).toFixed(2)}`, "درآمد"]}
             />
 
             <Area
               type="monotone"
               dataKey="revenue"
-              stroke="#e8832a"
+              stroke="var(--color-accent)"
               strokeWidth={2}
               fill="url(#revenueGradient)"
             />

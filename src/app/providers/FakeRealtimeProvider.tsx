@@ -172,8 +172,8 @@ export const FakeRealtimeProvider = () => {
             customerId,
 
             notification: createNotification(
-              "Order Accepted",
-              "The restaurant accepted your order 👍",
+              "سفارش تأیید شد",
+              "رستوران سفارش شما را تأیید کرد 👍",
               "info"
             ),
           })
@@ -181,7 +181,7 @@ export const FakeRealtimeProvider = () => {
 
 
         toast.info(
-          "Your order was accepted 👍"
+          "سفارش شما تأیید شد 👍"
         );
 
       }, 2000);
@@ -205,8 +205,8 @@ export const FakeRealtimeProvider = () => {
             customerId,
 
             notification: createNotification(
-              "Order Update",
-              "Your order is being prepared 👨‍🍳",
+              "به‌روزرسانی سفارش",
+              "سفارش شما در حال آماده‌سازی است 👨‍🍳",
               "info"
             ),
           })
@@ -214,7 +214,7 @@ export const FakeRealtimeProvider = () => {
 
 
         toast.info(
-          "Your order is being prepared 👨‍🍳"
+          "سفارش شما در حال آماده‌سازی است 👨‍🍳"
         );
 
       }, 6000);
@@ -238,8 +238,8 @@ export const FakeRealtimeProvider = () => {
             customerId,
 
             notification: createNotification(
-              "Order Ready",
-              "Your order is ready ✅",
+              "سفارش آماده است",
+              "سفارش شما آماده است ✅",
               "success"
             ),
           })
@@ -247,7 +247,7 @@ export const FakeRealtimeProvider = () => {
 
 
         toast.success(
-          "Your order is ready ✅"
+          "سفارش شما آماده است ✅"
         );
 
       }, 11000);
@@ -314,9 +314,17 @@ export const FakeRealtimeProvider = () => {
               customerId,
 
               notification: createNotification(
-                `${result.rank.toUpperCase()} Rank Unlocked 🎉`,
+                `رتبه ${
+                  (
+                    {
+                      bronze: "برنزی",
+                      silver: "نقره‌ای",
+                      gold: "طلایی",
+                    } as const
+                  )[result.rank as "bronze" | "silver" | "gold"] ?? result.rank
+                } باز شد 🎉`,
 
-                `Congratulations! You've earned a ${result.reward}% reward.`,
+                `تبریک! ${result.reward}٪ تخفیف جایزه گرفتید.`,
 
                 "success"
               ),
@@ -325,21 +333,21 @@ export const FakeRealtimeProvider = () => {
 
 
           toast.success(
-            `${result.rank.toUpperCase()} unlocked!`
+            `رتبه جدید باز شد!`
           );
         }
 
 
-        /* ---------------- Order Served ---------------- */
+        /* ---------------- سفارش سرو شد ---------------- */
 
         dispatch(
           addNotification({
             customerId,
 
             notification: createNotification(
-              "Order Served",
+              "سفارش سرو شد",
 
-              "Your order has been served 🍽️",
+              "سفارش شما سرو شد 🍽️",
 
               "success"
             ),
@@ -348,7 +356,7 @@ export const FakeRealtimeProvider = () => {
 
 
         toast.success(
-          "Order served 🍽️"
+          "سفارش سرو شد 🍽️"
         );
 
       }, 16000);

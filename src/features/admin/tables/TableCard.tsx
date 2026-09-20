@@ -27,7 +27,7 @@ const TableCard = ({ table, onReserve, onOccupy, onRelease }: TableCardProps) =>
         gap-1
         rounded-2xl
         border
-        bg-[#1a120b]
+        bg-[var(--color-surface)]
         p-4
         transition-colors
       "
@@ -35,7 +35,7 @@ const TableCard = ({ table, onReserve, onOccupy, onRelease }: TableCardProps) =>
         borderColor: menuOpen ? config.color : "rgba(120,53,15,0.2)",
       }}
     >
-      <span className="text-lg font-semibold text-white">{table.number}</span>
+      <span className="text-lg font-semibold text-[var(--color-text-primary)]">{table.number}</span>
 
       <span
         className="rounded-full px-2 py-0.5 text-[11px] font-medium"
@@ -44,7 +44,7 @@ const TableCard = ({ table, onReserve, onOccupy, onRelease }: TableCardProps) =>
         {config.label}
       </span>
 
-      <span className="mt-1 flex items-center gap-1 text-[11px] text-zinc-500">
+      <span className="mt-1 flex items-center gap-1 text-[11px] text-[var(--color-text-secondary)]">
         <Users size={11} />
         {table.capacity}
       </span>

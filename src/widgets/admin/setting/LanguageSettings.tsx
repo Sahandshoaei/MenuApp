@@ -2,7 +2,7 @@ import { Globe } from "lucide-react";
 
 const LanguageSettings = () => {
   return (
-    <section className="rounded-2xl border border-white/5 bg-[#111820] p-6">
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
       <div className="grid gap-8 md:grid-cols-2 md:items-center">
 
         {/* Info */}
@@ -15,11 +15,11 @@ const LanguageSettings = () => {
           </div>
 
           <div>
-            <h2 className="text-base font-semibold text-white">
+            <h2 className="text-base font-semibold text-[var(--color-text-primary)]">
               Language
             </h2>
 
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               Choose the language for the admin panel
             </p>
           </div>
@@ -27,7 +27,7 @@ const LanguageSettings = () => {
 
         {/* Setting */}
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">
+          <label className="mb-2 block text-sm font-medium text-[var(--color-text-primary)]">
             Language
           </label>
 
@@ -35,10 +35,10 @@ const LanguageSettings = () => {
             defaultValue="en"
             className="
               w-full rounded-xl
-              border border-white/10
-              bg-[#18212c]
+              border border-[var(--color-border-strong)]
+              bg-[var(--color-bg)]
               px-4 py-3
-              text-sm text-white
+              text-sm text-[var(--color-text-primary)]
               outline-none
               transition
               focus:border-emerald-500/50
@@ -57,7 +57,7 @@ const LanguageSettings = () => {
             </option>
           </select>
 
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
             This will change the language of the admin panel.
           </p>
         </div>

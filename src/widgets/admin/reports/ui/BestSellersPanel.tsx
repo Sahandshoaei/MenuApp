@@ -12,14 +12,14 @@ const BestSellersPanel = ({ period }: BestSellersPanelProps) => {
 
   if (bestSellers.length === 0) {
     return (
-      <p className="py-10 text-center text-sm text-zinc-500">
+      <p className="py-10 text-center text-sm text-[var(--color-text-secondary)]">
         هنوز سفارشی برای محاسبه‌ی پرفروش‌ترین‌ها ثبت نشده.
       </p>
     );
   }
 
   return (
-    <Card className="overflow-hidden rounded-2xl border border-amber-900/20 bg-[#1a120b] p-2">
+    <Card className="overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2">
       {bestSellers.map((item, index) => (
         <BestSellerRow
           key={item.menuItemId}

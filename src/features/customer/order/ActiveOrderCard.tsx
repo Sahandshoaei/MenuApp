@@ -1,3 +1,4 @@
+import { formatToman } from "@/shared/format/money";
 import type { Order, OrderStatus } from "@/entities/order/types/order";
 import OrderProgressTracker from "./OrderProgressTracker";
 
@@ -6,12 +7,12 @@ interface ActiveOrderCardProps {
 }
 
 const STATUS_LABEL: Record<OrderStatus, string> = {
-  pending: "Pending",
-  accepted: "Accepted",
-  preparing: "Preparing",
-  ready: "Ready",
-  served: "Served",
-  cancelled: "Cancelled",
+  pending: "در انتظار",
+  accepted: "تأیید شده",
+  preparing: "در حال آماده‌سازی",
+  ready: "آماده",
+  served: "سرو شده",
+  cancelled: "لغو شده",
 };
 
 const STATUS_COLOR: Record<OrderStatus, string> = {
@@ -26,11 +27,7 @@ const STATUS_COLOR: Record<OrderStatus, string> = {
 export const ActiveOrderCard = ({ order }: ActiveOrderCardProps) => {
   return (
     <div
-      className="
-        mb-8
-        rounded-3xl
-        p-5
-      "
+      className="mb-8 rounded-3xl p-5"
       style={{
         background: "var(--color-surface)",
         border: "0.5px solid var(--color-border)",
@@ -38,15 +35,18 @@ export const ActiveOrderCard = ({ order }: ActiveOrderCardProps) => {
       }}
     >
       <div className="mb-4 flex items-start justify-between">
-        <div>
+        <div className="text-right">
           <p
-            className="text-xs font-semibold tracking-[0.2em]"
+            className="text-xs font-semibold tracking-[0.15em]"
             style={{ color: "var(--color-accent)" }}
           >
-            LIVE ORDER
+            سفارش زنده
           </p>
 
-          <h2 className="mt-1 text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
+          <h2
+            className="mt-1 text-lg font-bold"
+            style={{ color: "var(--color-text-primary)" }}
+          >
             #{order.id.slice(0, 8)}
           </h2>
 
@@ -68,20 +68,32 @@ export const ActiveOrderCard = ({ order }: ActiveOrderCardProps) => {
 
           <div className="mt-5 flex items-center gap-8">
             <div>
-              <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
-                Table
+              <p
+                className="text-xs"
+                style={{ color: "var(--color-text-secondary)" }}
+              >
+                میز
               </p>
-              <p className="text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
+              <p
+                className="text-lg font-bold"
+                style={{ color: "var(--color-text-primary)" }}
+              >
                 {order.tableId}
               </p>
             </div>
 
-            <div className="text-right">
-              <p className="text-xs" style={{ color: "var(--color-text-secondary)" }}>
-                Total
+            <div>
+              <p
+                className="text-xs"
+                style={{ color: "var(--color-text-secondary)" }}
+              >
+                جمع
               </p>
-              <p className="text-lg font-bold" style={{ color: "var(--color-text-primary)" }}>
-                ${order.totalPrice.toFixed(2)}
+              <p
+                className="text-lg font-bold"
+                style={{ color: "var(--color-text-primary)" }}
+              >
+                {formatToman(order.totalPrice)}
               </p>
             </div>
           </div>

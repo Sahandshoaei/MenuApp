@@ -16,7 +16,7 @@ const Modal = ({ open, onClose, title, children }: ModalProps) => {
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-[#221C5E]/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -36,19 +36,22 @@ const Modal = ({ open, onClose, title, children }: ModalProps) => {
                 max-w-md
                 rounded-2xl
                 border
-                border-amber-900/30
-                bg-[#1a120b]
+                border-[var(--color-border)]
+                bg-[var(--color-surface)]
                 p-6
+                shadow-2xl
               "
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-5 flex items-center justify-between">
-                <h2 className="text-base font-medium text-white">{title}</h2>
+                <h2 className="text-base font-medium text-[var(--color-text-primary)]">
+                  {title}
+                </h2>
 
                 <button
                   type="button"
                   onClick={onClose}
-                  className="rounded-lg p-1 text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
+                  className="rounded-lg p-1 text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)] hover:text-[var(--color-text-primary)]"
                 >
                   <X size={18} />
                 </button>

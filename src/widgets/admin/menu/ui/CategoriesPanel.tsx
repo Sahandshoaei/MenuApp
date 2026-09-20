@@ -60,14 +60,14 @@ const CategoriesPanel = () => {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-zinc-400">
+        <span className="text-sm text-[var(--color-text-secondary)]">
           Total categories: {categories.length}
         </span>
 
         <button
           type="button"
           onClick={openAddModal}
-          className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+          className="flex items-center gap-2 rounded-xl bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:opacity-90"
         >
           <Plus size={16} />
           Add Category

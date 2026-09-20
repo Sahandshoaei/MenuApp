@@ -12,7 +12,7 @@ const ReportsManager = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center justify-between border-b border-amber-900/20">
+      <div className="flex items-center justify-between border-b border-[var(--color-border)]">
         <ReportsTabs value={tab} onChange={setTab} />
         <div className="pb-3">
           <PeriodToggle value={period} onChange={setPeriod} />

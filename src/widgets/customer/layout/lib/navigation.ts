@@ -1,10 +1,4 @@
-import {
-  House,
-  Heart,
-  Package,
-  User,
-} from "lucide-react";
-
+import { House, Heart, Package, User } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface NavigationItem {
@@ -15,25 +9,22 @@ export interface NavigationItem {
 
 export const navigationItems: NavigationItem[] = [
   {
-    label: "Menu",
+    label: "منو",
     path: "/",
     icon: House,
   },
-
   {
-    label: "Favorites",
+    label: "علاقه‌مندی",
     path: "/favorites",
     icon: Heart,
   },
-
   {
-    label: "Orders",
+    label: "سفارش‌ها",
     path: "/orders",
     icon: Package,
   },
-
   {
-    label: "Profile",
+    label: "پروفایل",
     path: "/profile",
     icon: User,
   },

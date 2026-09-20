@@ -1,16 +1,14 @@
 const LoyaltyHeader = () => {
   return (
-    <div className="pr-8">
-      <p className="text-xs text-[var(--color-accent)]">
-        Loyalty Program
-      </p>
+    <div className="pl-8 text-right">
+      <p className="text-xs text-[var(--color-accent)]">برنامه وفاداری</p>
 
       <h2 className="mt-1 text-xl font-bold text-[var(--color-text-primary)]">
-        Your Loyalty Journey
+        مسیر وفاداری شما
       </h2>
 
       <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-        Keep ordering and unlock more rewards.
+        سفارش بدهید و جوایز بیشتری باز کنید.
       </p>
     </div>
   );

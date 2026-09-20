@@ -51,7 +51,7 @@ const ProfilePage = () => {
           "
           >
           <LogOut size={18} />
-          <span>Log out</span>
+          <span>خروج</span>
         </Button>
       </Container>
 

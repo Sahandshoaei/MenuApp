@@ -18,6 +18,14 @@ const getInitials = (name: string) =>
     .join("")
     .toUpperCase();
 
+const formatNumber = (value: number) => value.toLocaleString("fa-IR");
+
+const formatAmount = (value: number) =>
+  value.toLocaleString("fa-IR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 const CustomerDetails = ({ customer, orders }: CustomerDetailsProps) => {
   const { config, progress, remaining } = getLoyaltyProgress(
     customer.rank,
@@ -27,47 +35,47 @@ const CustomerDetails = ({ customer, orders }: CustomerDetailsProps) => {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/15 text-sm text-primary">
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-accent-tint-strong)] text-sm text-[var(--color-accent)]">
           {getInitials(customer.name)}
         </div>
         <div>
-          <p className="text-sm text-white">{customer.name}</p>
-          <p className="text-xs text-zinc-500">{customer.phone}</p>
+          <p className="text-sm text-[var(--color-text-primary)]">{customer.name}</p>
+          <p dir="ltr" className="text-start text-xs text-[var(--color-text-secondary)]">{customer.phone}</p>
         </div>
-        <span className="mr-auto">
+        <span className="ms-auto">
           <LoyaltyRankBadge rank={customer.rank} />
         </span>
       </div>
 
-      <div className="rounded-2xl bg-white/5 p-4">
+      <div className="rounded-2xl bg-[var(--color-accent-tint)] p-4">
         <div className="mb-2 flex items-center justify-between text-xs">
-          <span className="text-zinc-400">
+          <span className="text-[var(--color-text-secondary)]">
             پیشرفت تا رتبه {config.next}
           </span>
-          <span className="text-primary">{Math.round(progress)}%</span>
+          <span className="text-[var(--color-accent)]">٪{formatNumber(Math.round(progress))}</span>
         </div>
 
-        <div className="h-2 overflow-hidden rounded-full bg-white/10">
+        <div className="h-2 overflow-hidden rounded-full bg-[var(--color-accent-tint)]">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-400 transition-all"
+            className="h-full rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-strong)] transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {customer.rank !== "gold" && (
-          <p className="mt-2 text-xs text-zinc-500">
-            ${remaining} بیشتر تا رسیدن به {config.next}
+          <p className="mt-2 text-xs text-[var(--color-text-secondary)]">
+            {formatAmount(remaining)} بیشتر تا رسیدن به {config.next}
           </p>
         )}
       </div>
 
       <div>
-        <p className="mb-2 text-xs text-zinc-400">
-          تاریخچه سفارش‌ها ({orders.length})
+        <p className="mb-2 text-xs text-[var(--color-text-secondary)]">
+          تاریخچه سفارش‌ها ({formatNumber(orders.length)})
         </p>
 
         {orders.length === 0 ? (
-          <p className="py-6 text-center text-sm text-zinc-500">
+          <p className="py-6 text-center text-sm text-[var(--color-text-secondary)]">
             هنوز سفارشی ثبت نکرده.
           </p>
         ) : (
@@ -75,12 +83,12 @@ const CustomerDetails = ({ customer, orders }: CustomerDetailsProps) => {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="flex items-center justify-between rounded-xl border border-amber-900/20 px-3 py-2"
+                className="flex items-center justify-between rounded-xl border border-[var(--color-border)] px-3 py-2"
               >
                 <div>
-                  <p className="text-xs text-zinc-200">میز {order.tableId}</p>
-                  <p className="text-xs text-zinc-500">
-                    ${order.totalPrice.toFixed(2)}
+                  <p className="text-xs text-[var(--color-text-primary)]">میز {order.tableId}</p>
+                  <p className="text-xs text-[var(--color-text-secondary)]">
+                    {formatAmount(order.totalPrice)}
                   </p>
                 </div>
 

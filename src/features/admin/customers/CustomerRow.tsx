@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { TableCell, TableRow } from "@/shared/table";
 import LoyaltyRankBadge from "./LoyaltyRankBadge";
 import type { CustomerRow as CustomerRowType } from "@/widgets/admin/customers/lib/useCustomersData";
@@ -17,6 +17,14 @@ const getInitials = (name: string) =>
     .join("")
     .toUpperCase();
 
+const formatNumber = (value: number) => value.toLocaleString("fa-IR");
+
+const formatAmount = (value: number) =>
+  value.toLocaleString("fa-IR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 const formatRelativeDate = (iso: string | null) => {
   if (!iso) return "—";
 
@@ -26,42 +34,61 @@ const formatRelativeDate = (iso: string | null) => {
 
   if (diffDays <= 0) return "امروز";
   if (diffDays === 1) return "دیروز";
-  return `${diffDays} روز پیش`;
+  return `${formatNumber(diffDays)} روز پیش`;
 };
 
 const CustomerRow = ({ customer, onClick }: CustomerRowProps) => {
   return (
     <TableRow
       onClick={onClick}
-      className="cursor-pointer border-amber-900/10 hover:bg-white/5"
+      className="cursor-pointer border-[var(--color-border)] hover:bg-[var(--color-accent-tint)]"
     >
       <TableCell>
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs text-primary">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent-tint-strong)] text-xs text-[var(--color-accent)]">
             {getInitials(customer.name)}
           </div>
-          <span className="truncate text-sm text-zinc-100">{customer.name}</span>
+
+          {/*
+            مثل ستون «اقلام» در جدول سفارش‌ها: محدودیت عرض باید روی یک
+            عنصر داخلی باشد، چون مرورگر max-width را روی خود <td> نادیده
+            می‌گیرد و نام‌های بلند عرض بقیه‌ی ستون‌ها را جابه‌جا می‌کنند.
+          */}
+          <span
+            className="max-w-[180px] truncate text-sm text-[var(--color-text-primary)]"
+            title={customer.name}
+          >
+            {customer.name}
+          </span>
         </div>
       </TableCell>
 
-      <TableCell className="text-sm text-zinc-400">{customer.phone}</TableCell>
-
-      <TableCell className="text-sm text-zinc-200">{customer.ordersCount}</TableCell>
-
-      <TableCell className="text-sm text-zinc-200">
-        ${customer.totalSpent.toFixed(2)}
+      {/* شماره تماس لاتین است و نباید معکوس دیده شود */}
+      <TableCell
+        dir="ltr"
+        className="w-[140px] text-start text-sm text-[var(--color-text-secondary)]"
+      >
+        {customer.phone}
       </TableCell>
 
-      <TableCell>
+      <TableCell className="w-[100px] text-sm text-[var(--color-text-primary)]">
+        {formatNumber(customer.ordersCount)}
+      </TableCell>
+
+      <TableCell className="w-[120px] text-sm text-[var(--color-text-primary)]">
+        {formatAmount(customer.totalSpent)}
+      </TableCell>
+
+      <TableCell className="w-[110px]">
         <LoyaltyRankBadge rank={customer.rank} />
       </TableCell>
 
-      <TableCell className="text-sm text-zinc-400">
+      <TableCell className="w-[120px] text-sm text-[var(--color-text-secondary)]">
         {formatRelativeDate(customer.lastOrderAt)}
       </TableCell>
 
-      <TableCell>
-        <ChevronRight size={16} className="justify-self-end text-zinc-500" />
+      <TableCell className="w-[40px]">
+        <ChevronLeft size={16} className="text-[var(--color-text-secondary)]" />
       </TableCell>
     </TableRow>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppSelector } from "@/app/store/hooks";
-import {selectCurrentOrder} from "@/entities/order/state/orderSelector";
+import { selectCurrentOrder } from "@/entities/order/state/orderSelector";
 import { selectOrderHistory } from "@/entities/order/state/orderSelector";
 import { OrderTabs, type OrderTabKey } from "./OrderTabs";
 import { ActiveOrderCard } from "@/features/customer/order/ActiveOrderCard";
@@ -16,12 +16,10 @@ const panelMotion = {
 };
 
 export const OrderTabsContent = () => {
-
   const [activeTab, setActiveTab] = useState<OrderTabKey>("active");
 
   const currentOrder = useAppSelector(selectCurrentOrder);
   const pastOrders = useAppSelector(selectOrderHistory);
-  // const cancelledOrders = useAppSelector(selectCancelledOrders);
 
   return (
     <>
@@ -34,8 +32,8 @@ export const OrderTabsContent = () => {
               <ActiveOrderCard order={currentOrder} />
             ) : (
               <EmptyOrderState
-                title="No active order"
-                message="Your current order will show up here once you check out."
+                title="سفارش فعالی نیست"
+                message="پس از ثبت سفارش، وضعیت زندهٔ آن اینجا نمایش داده می‌شود."
               />
             )}
           </motion.div>
@@ -47,8 +45,8 @@ export const OrderTabsContent = () => {
               <OrderHistoryList orders={pastOrders} />
             ) : (
               <EmptyOrderState
-                title="No past orders"
-                message="Orders you've received will appear here."
+                title="سفارش قبلی ندارید"
+                message="سفارش‌هایی که دریافت کرده‌اید اینجا ظاهر می‌شوند."
               />
             )}
           </motion.div>
@@ -56,14 +54,10 @@ export const OrderTabsContent = () => {
 
         {activeTab === "cancelled" && (
           <motion.div key="cancelled" {...panelMotion} className="mt-6">
-            {/* {cancelledOrders.length > 0 ? (
-              <OrderHistoryList orders={cancelledOrders} />
-            ) : (
-              <EmptyOrderState
-                title="No cancelled orders"
-                message="Orders you cancel will show up here."
-              />
-            )} */}
+            <EmptyOrderState
+              title="سفارش لغو‌شده‌ای نیست"
+              message="سفارش‌هایی که لغو می‌کنید اینجا نمایش داده می‌شوند."
+            />
           </motion.div>
         )}
       </AnimatePresence>

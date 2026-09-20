@@ -19,8 +19,8 @@ export default NotificationPage;
 
 // {
 //   id: "...",
-//   title: "Order Accepted",
-//   message: "The restaurant accepted your order 👍",
+//   title: "سفارش تأیید شد",
+//   message: "رستوران سفارش شما را تأیید کرد 👍",
 //   type: "info",
 //   read: false,
 //   createdAt: "2026-08-17T..."

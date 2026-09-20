@@ -20,7 +20,7 @@ const HighlightsPanel = () => {
 
   if (categories.length === 0 || items.length === 0) {
     return (
-      <p className="py-10 text-center text-sm text-zinc-500">
+      <p className="py-10 text-center text-sm text-[var(--color-text-secondary)]">
         برای تنظیم Highlights، حداقل یک دسته‌بندی و یک آیتم لازم است.
       </p>
     );

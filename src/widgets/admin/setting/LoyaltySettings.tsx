@@ -14,8 +14,8 @@ const RANK_LABELS: Record<Exclude<LoyaltyRank, "none">, string> = {
 const RANKS: Exclude<LoyaltyRank, "none">[] = ["bronze", "silver", "gold"];
 
 const inputClass = `
-  w-20 rounded-lg border border-amber-900/30 bg-transparent
-  px-2 py-1 text-sm text-white outline-none focus:border-primary
+  w-20 rounded-lg border border-[var(--color-border-strong)] bg-transparent
+  px-2 py-1 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]
 `;
 
 const LoyaltySettings = () => {
@@ -48,17 +48,17 @@ const LoyaltySettings = () => {
   };
 
   return (
-    <section className="rounded-2xl border border-amber-900/20 bg-[#1a120b] p-6">
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Info */}
         <div className="flex items-start gap-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-            <Diamond size={20} className="text-primary" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent-tint)]">
+            <Diamond size={20} className="text-[var(--color-accent)]" />
           </div>
 
           <div>
-            <h2 className="text-base font-semibold text-white">برنامه‌ی Loyalty</h2>
-            <p className="mt-1 text-sm text-zinc-400">
+            <h2 className="text-base font-semibold text-[var(--color-text-primary)]">برنامه‌ی Loyalty</h2>
+            <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
               آستانه‌ی خرج و مقدار تخفیف هر رتبه رو تنظیم کن
             </p>
           </div>
@@ -66,8 +66,8 @@ const LoyaltySettings = () => {
 
         {/* Tiers */}
         <div>
-          <div className="overflow-hidden rounded-xl border border-amber-900/20">
-            <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 bg-white/[0.03] px-4 py-3 text-xs font-medium text-zinc-400">
+          <div className="overflow-hidden rounded-xl border border-[var(--color-border)]">
+            <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 bg-[var(--color-accent-tint)] px-4 py-3 text-xs font-medium text-[var(--color-text-secondary)]">
               <span>رتبه</span>
               <span>حداقل خرج ($)</span>
               <span>تخفیف ($)</span>
@@ -81,9 +81,9 @@ const LoyaltySettings = () => {
               return (
                 <div
                   key={rank}
-                  className="grid grid-cols-[1fr_1fr_1fr_auto] items-center gap-3 border-t border-amber-900/10 px-4 py-3"
+                  className="grid grid-cols-[1fr_1fr_1fr_auto] items-center gap-3 border-t border-[var(--color-border)] px-4 py-3"
                 >
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-medium text-[var(--color-text-primary)]">
                     {RANK_LABELS[rank]}
                   </span>
 
@@ -95,7 +95,7 @@ const LoyaltySettings = () => {
                       onChange={(e) => setDraftMinSpent(e.target.value)}
                     />
                   ) : (
-                    <span className="text-sm text-zinc-300">${config.minSpent}</span>
+                    <span className="text-sm text-[var(--color-text-secondary)]">${config.minSpent}</span>
                   )}
 
                   {isEditing ? (
@@ -106,7 +106,7 @@ const LoyaltySettings = () => {
                       onChange={(e) => setDraftReward(e.target.value)}
                     />
                   ) : (
-                    <span className="w-fit rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                    <span className="w-fit rounded-lg bg-[var(--color-accent-tint)] px-2.5 py-1 text-xs font-medium text-[var(--color-accent)]">
                       ${config.reward} تخفیف
                     </span>
                   )}
@@ -123,7 +123,7 @@ const LoyaltySettings = () => {
                       <button
                         type="button"
                         onClick={cancelEdit}
-                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-900/30 text-zinc-400 hover:bg-white/5"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--color-border-strong)] text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)]"
                       >
                         <X size={14} />
                       </button>
@@ -132,7 +132,7 @@ const LoyaltySettings = () => {
                     <button
                       type="button"
                       onClick={() => startEdit(rank)}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-900/30 text-zinc-400 hover:bg-white/5 hover:text-white"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--color-border-strong)] text-[var(--color-text-secondary)] hover:bg-[var(--color-accent-tint)] hover:text-[var(--color-text-primary)]"
                     >
                       <Pencil size={14} />
                     </button>

@@ -18,42 +18,42 @@ export interface AdminNavigationItem {
 
 export const adminNavigationItems: AdminNavigationItem[] = [
   {
-    label: "Dashboard",
+    label: "داشبورد",
     path: "/admin",
     icon: LayoutDashboard,
   },
 
   {
-    label: "Orders",
+    label: "سفارش‌ها",
     path: "/admin/orders",
     icon: ClipboardList,
   },
 
   {
-    label: "Tables",
+    label: "میزها",
     path: "/admin/tables",
     icon: LayoutGrid,
   },
 
   {
-    label: "Menu",
+    label: "منو",
     path: "/admin/menu",
     icon: UtensilsCrossed,
   },
 
   {
-    label: "Customers",
+    label: "مشتری‌ها",
     path: "/admin/customers",
     icon: Users,
   },
    {
-    label: "Reports",
+    label: "گزارش‌ها",
     path: "/admin/reports",
     icon: BarChart3,
   },
 
   {
-    label: "Settings",
+    label: "تنظیمات",
     path: "/admin/settings",
     icon: Settings,
   },

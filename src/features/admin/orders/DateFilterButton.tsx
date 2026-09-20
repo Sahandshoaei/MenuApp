@@ -9,7 +9,7 @@ interface DateFilterButtonProps {
 const formatDisplayDate = (value: string) => {
   if (!value) return "همه تاریخ‌ها";
 
-  return new Date(value).toLocaleDateString("en-US", {
+  return new Date(value).toLocaleDateString("fa-IR", {
     day: "numeric",
     month: "long",
   });
@@ -43,12 +43,12 @@ const DateFilterButton = ({ value, onChange }: DateFilterButtonProps) => {
           gap-2
           rounded-xl
           border
-          border-amber-900/30
-          bg-[#1a120b]
+          border-[var(--color-border-strong)]
+          bg-[var(--color-surface)]
           px-3
           py-2
           text-sm
-          text-zinc-300
+          text-[var(--color-text-secondary)]
         "
       >
         <Calendar size={16} />
@@ -62,7 +62,7 @@ const DateFilterButton = ({ value, onChange }: DateFilterButtonProps) => {
               e.stopPropagation();
               onChange("");
             }}
-            className="text-zinc-500 hover:text-zinc-300"
+            className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-secondary)]"
           >
             <X size={14} />
           </span>

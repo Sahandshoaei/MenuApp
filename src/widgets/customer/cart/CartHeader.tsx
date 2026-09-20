@@ -5,16 +5,13 @@ type CartHeaderProps = {
   onClose: () => void;
 };
 
-const CartHeader = ({onClose}: CartHeaderProps) => {
-    
+const CartHeader = ({ onClose }: CartHeaderProps) => {
   const { count } = useCart();
 
   return (
     <div
       className="flex items-center justify-between p-5"
-      style={{
-        borderBottom: "0.5px solid var(--color-border)",
-      }}
+      style={{ borderBottom: "0.5px solid var(--color-border)" }}
     >
       <div className="flex items-center gap-3">
         <div
@@ -24,10 +21,7 @@ const CartHeader = ({onClose}: CartHeaderProps) => {
             border: "0.5px solid var(--color-border-strong)",
           }}
         >
-          <ShoppingBag
-            size={16}
-            style={{ color: "var(--color-accent)" }}
-          />
+          <ShoppingBag size={16} style={{ color: "var(--color-accent)" }} />
         </div>
 
         <div>
@@ -35,14 +29,14 @@ const CartHeader = ({onClose}: CartHeaderProps) => {
             className="text-base font-semibold"
             style={{ color: "var(--color-text-primary)" }}
           >
-            Your Cart
+            سبد خرید
           </h2>
 
           <p
             className="text-xs"
             style={{ color: "var(--color-text-secondary)" }}
           >
-            {count} {count === 1 ? "item" : "items"}
+            {count} مورد
           </p>
         </div>
       </div>
@@ -50,15 +44,8 @@ const CartHeader = ({onClose}: CartHeaderProps) => {
       <button
         type="button"
         onClick={onClose}
-        aria-label="Close cart"
-        className="
-          flex
-          h-8
-          w-8
-          items-center
-          justify-center
-          rounded-lg
-        "
+        aria-label="بستن سبد"
+        className="flex h-8 w-8 items-center justify-center rounded-lg"
         style={{
           background: "var(--color-surface)",
           border: "0.5px solid var(--color-border)",

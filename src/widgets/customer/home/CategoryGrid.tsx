@@ -1,278 +1,161 @@
-// import { useEffect, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useMenu } from "../../../entities/menu/hooks/useMenu";
-// import CategoryCard from "../../../features/customer/category/CategoryCard";
-// import { motion } from "framer-motion";
-// import {menuContainerVariants,menuItemVariants} from "../../../shared/animations/menuVariants";
-
-// // فاصله‌ای (به پیکسل) که چرخش/محو شدن توش اتفاق می‌افته: از وقتی لبه‌ی بالای
-// // کارت به این فاصله از لبه‌ی زیرین هدر چسبیده می‌رسه، شروع به چرخیدن می‌کنه،
-// // و دقیقاً وقتی به لبه‌ی هدر می‌رسه (زیرش می‌ره) کاملاً چرخیده و محو شده.
-// const ANIMATION_RANGE = 90;
-
-// const CategoryGrid = () => {
-//   const navigate = useNavigate();
-//   const gridRef = useRef<HTMLDivElement>(null);
-//   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-//   const {
-//     categories,
-//     getMenuItemsByCategory,
-//   } = useMenu();
-
-//   useEffect(() => {
-//     let ticking = false;
-
-//     const updateCards = () => {
-//       // ارتفاع هدر چسبیده رو از یه CSS variable می‌خونیم که HomePage ست می‌کنه
-//       const headerHeight = parseFloat(
-//         getComputedStyle(document.documentElement).getPropertyValue(
-//           "--sticky-header-height"
-//         ) || "0"
-//       );
-
-//       Object.values(cardRefs.current).forEach((node) => {
-//         if (!node) return;
-
-//         const top = node.getBoundingClientRect().top;
-//         const distance = top - headerHeight;
-
-//         // progress: ۰ = کاملاً پایین‌تر از بازه (حالت عادی) | ۱ = دقیقاً زیر هدر
-//         const progress = Math.min(
-//           1,
-//           Math.max(0, 1 - distance / ANIMATION_RANGE)
-//         );
-
-//         const rotateX = progress * -90;
-//         const opacity = 1 - progress;
-
-//         node.style.transform = `perspective(600px) rotateX(${rotateX}deg)`;
-//         node.style.opacity = String(opacity);
-//       });
-
-//       ticking = false;
-//     };
-
-//     const onScroll = () => {
-//       if (!ticking) {
-//         window.requestAnimationFrame(updateCards);
-//         ticking = true;
-//       }
-//     };
-
-//     // این پروژه کل صفحه رو با window اسکرول نمی‌کنه — یه ancestor داخلی
-//     // (مثلاً <main className="overflow-y-auto">) واقعی‌ای هست که اسکرول
-//     // می‌شه. باید همون رو پیدا کنیم و به scroll خودش گوش بدیم، نه window؛
-//     // وگرنه این ایونت هیچ‌وقت فایر نمی‌شه.
-//     const getScrollParent = (
-//       element: HTMLElement | null
-//     ): EventTarget => {
-//       let node = element?.parentElement ?? null;
-
-//       while (node) {
-//         const { overflowY } = getComputedStyle(node);
-
-//         if (overflowY === "auto" || overflowY === "scroll") {
-//           return node;
-//         }
-
-//         node = node.parentElement;
-//       }
-
-//       return window;
-//     };
-
-//     const scrollParent = getScrollParent(gridRef.current);
-
-//     updateCards();
-//     scrollParent.addEventListener("scroll", onScroll, {
-//       passive: true,
-//     });
-//     window.addEventListener("resize", onScroll);
-
-//     return () => {
-//       scrollParent.removeEventListener("scroll", onScroll);
-//       window.removeEventListener("resize", onScroll);
-//     };
-//   }, [categories.length]);
-
-//   return (
-//     <div ref={gridRef} className="grid grid-cols-2 gap-4 mt-5">
-//       {categories.map((category) => {
-//         const itemCount =
-//           getMenuItemsByCategory(category.id).length;
-
-//         return (
-//           <div
-//             key={category.id}
-//             ref={(node) => {
-//               cardRefs.current[category.id] = node;
-//             }}
-//             style={{
-//               transformOrigin: "top center",
-//               willChange: "transform, opacity",
-//             }}
-//           >
-//             <CategoryCard
-//               id={category.id}
-//               title={category.title}
-//               icon={category.icon}
-//               itemCount={itemCount}
-//               glowColor={category.glowColor}
-//               gradient={category.gradient}
-//               onClick={() =>
-//                 navigate(`/category/${category.id}`)
-//               }
-//             />
-//           </div>
-//         );
-//       })}
-//     </div>
-//   );
-// };
-
-// export default CategoryGrid;
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
 import { useMenu } from "../../../entities/menu/hooks/useMenu";
 import CategoryCard from "../../../features/customer/category/CategoryCard";
+import { menuContainerVariants } from "../../../shared/animations/menuVariants";
+import { getCustomerScrollRoot } from "../layout/lib/scrollRoot";
 
-import {
-  menuContainerVariants,
-} from "../../../shared/animations/menuVariants";
+/**
+ * Home category grid
+ * 1) Scroll-linked fold (rotateX) as cards pass under the sticky Menu header
+ * 2) Click flip (rotateY ~180°) then navigate into the category
+ */
 
-const ANIMATION_RANGE = 90;
+/** How many px under the sticky header until the fold is fully closed */
+const FOLD_RANGE = 140;
+const MAX_ROTATE_X = -88;
+/**
+ * Cards only start folding once their top edge crosses this far
+ * *above* the sticky header bottom (i.e. they are tucking under it).
+ * Using a pure "distance below header" formula folded the first row
+ * on load, because those cards sit only ~10–30px under the header.
+ */
+const FOLD_START_OFFSET = 0;
 
 const CategoryGrid = () => {
   const navigate = useNavigate();
-
   const gridRef = useRef<HTMLDivElement>(null);
+  const cardShellRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  /** ref so scroll handler never overwrites an in-progress flip */
+  const flippingIdRef = useRef<string | null>(null);
+  const [flippingId, setFlippingId] = useState<string | null>(null);
+  const { categories, getMenuItemsByCategory } = useMenu();
 
-  const cardRefs = useRef<
-    Record<string, HTMLDivElement | null>
-  >({});
-
-  const {
-    categories,
-    getMenuItemsByCategory,
-  } = useMenu();
-
+  /* ------------------------------------------------------------ */
+  /* Scroll-linked fold — attaches once to #customer-scroll-root  */
+  /* ------------------------------------------------------------ */
   useEffect(() => {
     let ticking = false;
+    let root: HTMLElement | null = null;
+    let disposed = false;
+    let retryId = 0;
 
-    const updateCards = () => {
-      const headerHeight = parseFloat(
-        getComputedStyle(document.documentElement)
-          .getPropertyValue(
-            "--sticky-header-height"
-          ) || "0"
+    const update = () => {
+      if (disposed) return;
+
+      const sticky = document.querySelector<HTMLElement>(
+        "[data-home-sticky-header]"
       );
+      const foldLine = sticky
+        ? sticky.getBoundingClientRect().bottom
+        : 140;
 
-      Object.values(cardRefs.current).forEach(
-        (node) => {
-          if (!node) return;
+      Object.entries(cardShellRefs.current).forEach(([id, el]) => {
+        if (!el) return;
+        if (flippingIdRef.current === id) return;
 
-          const top =
-            node.getBoundingClientRect().top;
+        const top = el.getBoundingClientRect().top;
+        // Positive = card is still fully below the sticky header (open).
+        // Negative = card top has gone under the header (fold).
+        const distance = top - foldLine;
 
-          const distance =
-            top - headerHeight;
+        // Only fold while tucking under the header — never on first paint
+        // when the first row simply sits under the menu block.
+        const raw = (FOLD_START_OFFSET - distance) / FOLD_RANGE;
+        const p = Math.min(1, Math.max(0, raw));
 
-          const progress = Math.min(
-            1,
-            Math.max(
-              0,
-              1 -
-                distance /
-                  ANIMATION_RANGE
-            )
-          );
-
-          const rotateX =
-            progress * -90;
-
-          const opacity =
-            1 - progress;
-
-          node.style.transform =
-            `perspective(600px) rotateX(${rotateX}deg)`;
-
-          node.style.opacity =
-            String(opacity);
+        if (p <= 0.001) {
+          // Resting / fully visible — force a clean open pose
+          el.style.transform = "none";
+          el.style.opacity = "1";
+          el.style.filter = "none";
+          return;
         }
-      );
+
+        const rotateX = p * MAX_ROTATE_X;
+        const scale = 1 - p * 0.1;
+        const opacity = 1 - p * 0.85;
+        const y = p * -8;
+
+        el.style.transform = `perspective(1000px) translateY(${y}px) rotateX(${rotateX}deg) scale(${scale})`;
+        el.style.opacity = String(opacity);
+        el.style.filter = p > 0.2 ? `blur(${p * 5}px)` : "none";
+      });
 
       ticking = false;
     };
 
     const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(
-          updateCards
-        );
-
-        ticking = true;
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
     };
 
-    const getScrollParent = (
-      element: HTMLElement | null
-    ): EventTarget => {
-      let node =
-        element?.parentElement ?? null;
-
-      while (node) {
-        const { overflowY } =
-          getComputedStyle(node);
-
-        if (
-          overflowY === "auto" ||
-          overflowY === "scroll"
-        ) {
-          return node;
-        }
-
-        node = node.parentElement;
-      }
-
-      return window;
+    const attachTo = (el: HTMLElement) => {
+      root = el;
+      root.addEventListener("scroll", onScroll, { passive: true });
+      update();
     };
 
-    const scrollParent =
-      getScrollParent(
-        gridRef.current
-      );
-
-    updateCards();
-
-    scrollParent.addEventListener(
-      "scroll",
-      onScroll,
-      {
-        passive: true,
+    const tryAttach = () => {
+      const el = getCustomerScrollRoot();
+      if (el) {
+        attachTo(el);
+        return;
       }
-    );
+      // Root not mounted yet (first paint / strict mode) — retry a few times
+      retryId = window.setTimeout(tryAttach, 50);
+    };
 
-    window.addEventListener(
-      "resize",
-      onScroll
-    );
+    tryAttach();
+    window.addEventListener("resize", onScroll);
 
     return () => {
-      scrollParent.removeEventListener(
-        "scroll",
-        onScroll
-      );
-
-      window.removeEventListener(
-        "resize",
-        onScroll
-      );
+      disposed = true;
+      window.clearTimeout(retryId);
+      root?.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, [categories.length]);
+
+  /* ------------------------------------------------------------ */
+  /* Click → flip → navigate                                      */
+  /* ------------------------------------------------------------ */
+  const handleClick = (categoryId: string) => {
+    if (flippingIdRef.current) return;
+
+    const el = cardShellRefs.current[categoryId];
+    if (!el) {
+      navigate(`/category/${categoryId}`);
+      return;
+    }
+
+    flippingIdRef.current = categoryId;
+    setFlippingId(categoryId);
+
+    // Clean start pose (kill any scroll-fold styles)
+    el.style.transition = "none";
+    el.style.filter = "none";
+    el.style.opacity = "1";
+    el.style.transformOrigin = "center center";
+    el.style.transform = "perspective(1200px) rotateY(0deg) scale(1)";
+    void el.offsetWidth; // reflow
+
+    el.style.transition =
+      "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease";
+    el.style.transform = "perspective(1200px) rotateY(180deg) scale(0.88)";
+    el.style.opacity = "0.2";
+
+    window.setTimeout(() => {
+      navigate(`/category/${categoryId}`);
+      // Reset after leave so back-navigation is clean
+      window.setTimeout(() => {
+        flippingIdRef.current = null;
+        setFlippingId(null);
+      }, 50);
+    }, 520);
+  };
 
   return (
     <motion.div
@@ -280,33 +163,24 @@ const CategoryGrid = () => {
       variants={menuContainerVariants}
       initial="hidden"
       animate="visible"
-      className="
-        grid
-        grid-cols-2
-        gap-4
-        mt-5
-      "
+      className="mt-5 grid grid-cols-2 gap-4"
+      style={{ perspective: 1200, perspectiveOrigin: "50% 30%" }}
     >
       {categories.map((category) => {
-        const itemCount =
-          getMenuItemsByCategory(
-            category.id
-          ).length;
+        const itemCount = getMenuItemsByCategory(category.id).length;
 
         return (
           <div
             key={category.id}
             ref={(node) => {
-              cardRefs.current[
-                category.id
-              ] = node;
+              cardShellRefs.current[category.id] = node;
             }}
+            data-category-shell={category.id}
+            className="will-change-transform"
             style={{
               transformOrigin:
-                "top center",
-
-              willChange:
-                "transform, opacity",
+                flippingId === category.id ? "center center" : "top center",
+              transformStyle: "preserve-3d",
             }}
           >
             <CategoryCard
@@ -314,17 +188,10 @@ const CategoryGrid = () => {
               title={category.title}
               icon={category.icon}
               itemCount={itemCount}
-              glowColor={
-                category.glowColor
-              }
-              gradient={
-                category.gradient
-              }
-              onClick={() =>
-                navigate(
-                  `/category/${category.id}`
-                )
-              }
+              glowColor={category.glowColor}
+              gradient={category.gradient}
+              isFlipping={flippingId === category.id}
+              onClick={() => handleClick(category.id)}
             />
           </div>
         );
@@ -334,15 +201,3 @@ const CategoryGrid = () => {
 };
 
 export default CategoryGrid;
-
-//  جریان داده این شکلی است:
-
-//                 Entity Menu
-//                     │
-//                     │ useMenu()
-//                     ▼
-//              CategoryGrid
-//                     │
-//                     │ props
-//                     ▼
-//               CategoryCard

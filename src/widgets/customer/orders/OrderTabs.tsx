@@ -6,9 +6,9 @@ interface OrderTabsProps {
 }
 
 const TABS: { key: OrderTabKey; label: string }[] = [
-  { key: "active", label: "Active" },
-  { key: "past", label: "Past" },
-  { key: "cancelled", label: "Cancelled" },
+  { key: "active", label: "فعال" },
+  { key: "past", label: "قبلی" },
+  { key: "cancelled", label: "لغو شده" },
 ];
 
 export const OrderTabs = ({ activeTab, onTabChange }: OrderTabsProps) => {

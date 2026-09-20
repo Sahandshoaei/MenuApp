@@ -15,7 +15,7 @@ const CustomersManager = () => {
   } = useCustomersData();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div dir="rtl" className="flex flex-col gap-5">
       <CustomersStats stats={stats} />
 
       <CustomersTable customers={rows} onSelect={openCustomer} />

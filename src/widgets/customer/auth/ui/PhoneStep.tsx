@@ -1,4 +1,4 @@
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowLeft, Phone } from "lucide-react";
 import { useState } from "react";
 
 type PhoneStepProps = {
@@ -7,11 +7,7 @@ type PhoneStepProps = {
   onSubmit: (phone: string) => void;
 };
 
-const PhoneStep = ({
-  loading,
-  error,
-  onSubmit,
-}: PhoneStepProps) => {
+const PhoneStep = ({ loading, error, onSubmit }: PhoneStepProps) => {
   const [phone, setPhone] = useState("");
 
   const handleSubmit = () => {
@@ -19,48 +15,43 @@ const PhoneStep = ({
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 text-right">
       <div>
         <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">
-          Welcome to BiteStream
+          به بایت‌استریم خوش آمدید
         </h2>
 
         <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          Enter your phone number to continue
+          برای ادامه شماره موبایل خود را وارد کنید
         </p>
       </div>
 
       <div>
         <label className="mb-2 block text-xs text-[var(--color-text-secondary)]">
-          Phone Number
+          شماره موبایل
         </label>
 
         <div className="flex items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-accent-tint)] px-3">
-          <Phone
-            size={16}
-            className="text-[var(--color-accent)]"
-          />
+          <Phone size={16} className="text-[var(--color-accent)]" />
 
-          <span className="border-r border-[var(--color-border)] py-3 pr-3 text-xs text-[var(--color-text-secondary)]">
-            +49
+          <span
+            className="border-l border-[var(--color-border)] py-3 pl-3 text-xs text-[var(--color-text-secondary)]"
+            dir="ltr"
+          >
+            +98
           </span>
 
           <input
             type="tel"
             value={phone}
-            onChange={(e) =>
-              setPhone(e.target.value)
-            }
-            placeholder="123 456 7890"
-            className="w-full bg-transparent py-3 text-sm text-[var(--color-text-primary)] outline-none"
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="912 345 6789"
+            dir="ltr"
+            className="w-full bg-transparent py-3 text-left text-sm text-[var(--color-text-primary)] outline-none"
           />
         </div>
 
-        {error && (
-          <p className="mt-2 text-xs text-red-500">
-            {error}
-          </p>
-        )}
+        {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
       </div>
 
       <button
@@ -73,9 +64,8 @@ const PhoneStep = ({
             "linear-gradient(135deg, var(--color-accent), var(--color-accent-strong))",
         }}
       >
-        {loading ? "Sending..." : "Send OTP"}
-
-        {!loading && <ArrowRight size={15} />}
+        {loading ? "در حال ارسال..." : "ارسال کد تأیید"}
+        {!loading && <ArrowLeft size={15} />}
       </button>
     </div>
   );

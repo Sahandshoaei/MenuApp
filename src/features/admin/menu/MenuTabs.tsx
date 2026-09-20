@@ -13,7 +13,7 @@ const TABS: { value: MenuTab; label: string }[] = [
 
 const MenuTabs = ({ value, onChange }: MenuTabsProps) => {
   return (
-    <div className="flex items-center gap-6 border-b border-amber-900/20">
+    <div className="flex items-center gap-6 border-b border-[var(--color-border)]">
       {TABS.map((tab) => (
         <button
           key={tab.value}
@@ -25,8 +25,8 @@ const MenuTabs = ({ value, onChange }: MenuTabsProps) => {
             transition-colors
             ${
               value === tab.value
-                ? "border-b-2 border-primary font-medium text-white"
-                : "text-zinc-400 hover:text-zinc-200"
+                ? "border-b-2 border-[var(--color-accent)] font-medium text-[var(--color-text-primary)]"
+                : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
             }
           `}
         >

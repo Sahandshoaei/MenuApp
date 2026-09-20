@@ -23,8 +23,8 @@ const OrdersTabs = ({ value, onChange }: OrdersTabsProps) => {
             pb-3 text-sm transition-colors
             ${
               value === tab.value
-                ? "border-b-2 border-primary font-medium text-white"
-                : "text-zinc-400 hover:text-zinc-200"
+                ? "border-b-2 border-[var(--color-accent)] font-medium text-[var(--color-text-primary)]"
+                : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
             }
           `}
         >

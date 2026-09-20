@@ -6,7 +6,7 @@ const TableGrid = () => {
 
   if (tables.length === 0) {
     return (
-      <p className="py-10 text-center text-sm text-zinc-500">
+      <p className="py-10 text-center text-sm text-[var(--color-text-secondary)]">
         میزی برای نمایش وجود ندارد.
       </p>
     );
